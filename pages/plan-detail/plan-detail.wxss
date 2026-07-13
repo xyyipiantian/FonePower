@@ -1,0 +1,197 @@
+/* =====================================================================
+   FitFlow · 计划详情 (Plan Detail)  —  设计系统覆盖层
+   ===================================================================== */
+
+.page {
+  padding: 0 24rpx;
+  min-height: 100vh;
+}
+
+/* ---------- 头图 ---------- */
+.hero {
+  position: relative;
+  margin: 20rpx 0 18rpx;
+  height: 280rpx;
+  border-radius: var(--ff-r-xl);
+  overflow: hidden;
+  padding: 32rpx 30rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  color: #fff;
+  box-shadow: var(--ff-shadow-md);
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8rpx;
+  background: rgba(255, 255, 255, 0.35);
+  z-index: 2;
+}
+.hero.primary { background: linear-gradient(135deg, #00A87C 0%, #00D6A8 100%); }
+.hero.blue    { background: linear-gradient(135deg, #2563EB 0%, #38BDF8 100%); }
+.hero.violet  { background: linear-gradient(135deg, #7C3AED 0%, #A78BFA 100%); }
+.hero.amber   { background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%); }
+.hero.accent  { background: var(--ff-grad-accent); }
+.hero.rose    { background: linear-gradient(135deg, #F43F5E 0%, #FB7185 100%); }
+
+.hero-wm {
+  position: absolute;
+  right: 28rpx;
+  top: 28rpx;
+  width: 130rpx;
+  height: 130rpx;
+  opacity: 0.25;
+}
+.hero-level {
+  position: absolute;
+  left: 30rpx;
+  top: 28rpx;
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+  padding: 6rpx 16rpx;
+  font-size: var(--ff-fs-xs);
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.22);
+  -webkit-backdrop-filter: blur(6rpx);
+  backdrop-filter: blur(6rpx);
+  border-radius: var(--ff-r-full);
+}
+.hl-fire { width: 22rpx; height: 22rpx; }
+.hero-name {
+  font-size: var(--ff-fs-3xl);
+  font-weight: 800;
+  letter-spacing: 1rpx;
+  text-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.15);
+}
+.hero-meta {
+  display: flex;
+  align-items: center;
+  margin-top: 14rpx;
+}
+.hm {
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+  font-size: var(--ff-fs-sm);
+  font-weight: 600;
+}
+.hm-ico { width: 26rpx; height: 26rpx; }
+.hm-count {
+  margin-left: 20rpx;
+  font-size: var(--ff-fs-sm);
+  opacity: 0.92;
+}
+
+/* ---------- 描述卡 ---------- */
+.desc-card {
+  padding: 28rpx 24rpx;
+}
+.desc-text {
+  font-size: var(--ff-fs-base);
+  color: var(--ff-ink-700);
+  line-height: 1.7;
+}
+.desc-tags {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 18rpx;
+}
+
+/* ---------- 开始训练按钮 ---------- */
+.start-btn {
+  margin-top: 22rpx;
+  height: 92rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  border-radius: var(--ff-r-lg);
+  background: var(--ff-grad-primary);
+  color: #fff;
+  font-size: var(--ff-fs-lg);
+  font-weight: 700;
+  box-shadow: var(--ff-shadow-md);
+  transition: transform var(--ff-tr-fast);
+}
+.start-btn:active { transform: scale(0.98); }
+.sb-ico { width: 34rpx; height: 34rpx; }
+
+/* ---------- 动作列表 ---------- */
+.ex-list { margin-top: 8rpx; }
+.ex-row {
+  display: flex;
+  align-items: center;
+  padding: 18rpx 20rpx;
+  margin-top: 16rpx;
+}
+.ex-no {
+  flex: none;
+  width: 48rpx;
+  height: 48rpx;
+  line-height: 48rpx;
+  text-align: center;
+  border-radius: 50%;
+  background: var(--ff-grad-primary);
+  color: #fff;
+  font-weight: 700;
+  font-size: var(--ff-fs-base);
+  margin-right: 18rpx;
+  box-shadow: var(--ff-shadow-sm);
+}
+.ex-thumb {
+  flex: none;
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: var(--ff-r-md);
+  background: var(--ff-line);
+  overflow: hidden;
+}
+.ex-thumb.ph-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 36rpx;
+}
+.ex-info {
+  flex: 1;
+  min-width: 0;
+  padding: 0 16rpx;
+}
+.ex-name {
+  font-size: var(--ff-fs-base);
+  font-weight: 600;
+  color: var(--ff-ink-900);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ex-meta {
+  margin-top: 6rpx;
+  font-size: var(--ff-fs-xs);
+  color: var(--ff-ink-400);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ex-go {
+  flex: none;
+  width: 36rpx;
+  height: 36rpx;
+  opacity: 0.5;
+}
+
+/* ---------- 空状态 ---------- */
+.empty {
+  padding: 160rpx 0;
+  text-align: center;
+}
+.empty-text { font-size: var(--ff-fs-xl); color: var(--ff-ink-500); }
+
+.safe-bottom { height: 40rpx; }

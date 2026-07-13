@@ -1,0 +1,286 @@
+/* =====================================================================
+   FitFlow · 首页 (浏览 / 搜索 / 分类筛选)  —  设计系统覆盖层
+   ===================================================================== */
+
+.page {
+  padding: 0 24rpx;
+  min-height: 100vh;
+}
+
+/* ---------- 顶部标题 Hero ---------- */
+.hero-head {
+  position: relative;
+  padding: 36rpx 8rpx 18rpx;
+}
+.hero-head::before {
+  content: '';
+  position: absolute;
+  left: 8rpx;
+  top: 14rpx;
+  width: 64rpx;
+  height: 8rpx;
+  border-radius: 8rpx;
+  background: var(--ff-grad-primary);
+}
+.hero-title {
+  font-size: var(--ff-fs-3xl);
+  font-weight: 800;
+  color: var(--ff-ink-900);
+  letter-spacing: 1rpx;
+}
+.hero-sub {
+  margin-top: 10rpx;
+  font-size: var(--ff-fs-base);
+  color: var(--ff-ink-500);
+}
+
+/* ---------- 搜索框 ---------- */
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: var(--ff-surface);
+  border-radius: var(--ff-r-full);
+  padding: 0 24rpx;
+  height: 80rpx;
+  box-shadow: var(--ff-shadow-sm);
+  border: 2rpx solid transparent;
+  transition: border-color var(--ff-tr-fast), box-shadow var(--ff-tr-fast);
+}
+.search-bar:active {
+  border-color: var(--ff-primary-300);
+  box-shadow: var(--ff-shadow-md);
+}
+.search-ico {
+  width: 30rpx;
+  height: 30rpx;
+  flex: none;
+  margin-right: 12rpx;
+  opacity: 0.55;
+}
+.search-input {
+  flex: 1;
+  font-size: var(--ff-fs-md);
+  color: var(--ff-ink-900);
+}
+.search-ph {
+  color: var(--ff-ink-400);
+}
+.search-clear {
+  width: 40rpx;
+  height: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--ff-line);
+}
+.sc-x {
+  width: 22rpx;
+  height: 22rpx;
+}
+
+/* ---------- 维度切换 · 分段控件 ---------- */
+.dim-tabs {
+  display: flex;
+  gap: 12rpx;
+  margin: 28rpx 0 18rpx;
+  padding: 6rpx;
+  background: var(--ff-surface);
+  border-radius: var(--ff-r-lg);
+  box-shadow: var(--ff-shadow-xs);
+}
+.dim-tab {
+  flex: 1;
+  text-align: center;
+  padding: 18rpx 0;
+  font-size: var(--ff-fs-base);
+  color: var(--ff-ink-500);
+  border-radius: var(--ff-r-md);
+  transition: all var(--ff-tr-fast);
+}
+.dim-tab.active {
+  color: #fff;
+  background: var(--ff-grad-primary);
+  font-weight: 700;
+  box-shadow: var(--ff-shadow-sm);
+}
+
+/* ---------- 维度可选项 · 横向 Chips ---------- */
+.chip-scroll {
+  white-space: nowrap;
+  width: 100%;
+  margin-top: 4rpx;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 14rpx 28rpx;
+  margin-right: 16rpx;
+  font-size: var(--ff-fs-sm);
+  color: var(--ff-ink-500);
+  background: var(--ff-surface);
+  border-radius: var(--ff-r-full);
+  border: 2rpx solid var(--ff-line);
+  transition: all var(--ff-tr-fast);
+}
+.chip.active {
+  color: #fff;
+  background: var(--ff-grad-primary);
+  border-color: transparent;
+  font-weight: 600;
+  box-shadow: var(--ff-shadow-sm);
+}
+.chip-count {
+  margin-left: 10rpx;
+  font-size: var(--ff-fs-xs);
+  opacity: 0.75;
+}
+
+/* ---------- 结果计数 ---------- */
+.count-row {
+  display: flex;
+  align-items: baseline;
+  padding: 26rpx 6rpx 10rpx;
+}
+.count-num {
+  font-size: var(--ff-fs-2xl);
+  font-weight: 800;
+  color: var(--ff-primary-600);
+}
+.count-label {
+  margin-left: 10rpx;
+  font-size: var(--ff-fs-base);
+  color: var(--ff-ink-500);
+}
+.count-reset {
+  margin-left: auto;
+  font-size: var(--ff-fs-base);
+  color: var(--ff-accent-600);
+  font-weight: 600;
+}
+
+/* ---------- 动作网格 ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22rpx;
+  margin-top: 14rpx;
+}
+.card {
+  background: var(--ff-surface);
+  border-radius: var(--ff-r-lg);
+  overflow: hidden;
+  box-shadow: var(--ff-shadow-sm);
+  transition: transform var(--ff-tr-fast), box-shadow var(--ff-tr-fast);
+}
+.card:active {
+  transform: translateY(2rpx) scale(0.985);
+  box-shadow: var(--ff-shadow-md);
+}
+.thumb {
+  position: relative;
+  width: 100%;
+  height: 240rpx;
+  background: var(--ff-line);
+  overflow: hidden;
+}
+.thumb::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 80rpx;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.38), transparent);
+}
+.thumb-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  transition: transform var(--ff-tr);
+}
+.card:active .thumb-img {
+  transform: scale(1.06);
+}
+.thumb-tag {
+  position: absolute;
+  left: 12rpx;
+  bottom: 12rpx;
+  z-index: 2;
+  padding: 4rpx 14rpx;
+  font-size: var(--ff-fs-xs);
+  color: #fff;
+  background: rgba(0, 0, 0, 0.42);
+  border-radius: var(--ff-r-full);
+  -webkit-backdrop-filter: blur(4rpx);
+  backdrop-filter: blur(4rpx);
+}
+.card-name {
+  padding: 16rpx 18rpx 4rpx;
+  font-size: var(--ff-fs-base);
+  font-weight: 600;
+  color: var(--ff-ink-900);
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.card-meta {
+  padding: 0 18rpx 18rpx;
+  font-size: var(--ff-fs-xs);
+  color: var(--ff-ink-400);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---------- 空状态 ---------- */
+.empty {
+  padding: 120rpx 0;
+  text-align: center;
+}
+.empty-ico { width: 96rpx; height: 96rpx; }
+.empty-text { margin-top: 20rpx; font-size: var(--ff-fs-xl); color: var(--ff-ink-900); font-weight: 600; }
+.empty-sub { margin-top: 8rpx; font-size: var(--ff-fs-base); color: var(--ff-ink-400); }
+
+.load-more {
+  text-align: center;
+  padding: 28rpx 0 8rpx;
+  font-size: var(--ff-fs-base);
+  color: var(--ff-ink-400);
+}
+
+.safe-bottom { height: 200rpx; }
+
+/* 一键返回顶部：浅青底悬浮按钮，保证清晰又不抢眼 */
+.back-top {
+  position: fixed;
+  right: 24rpx;
+  bottom: 200rpx;
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+  background: var(--ff-primary-50);
+  border: 1rpx solid var(--ff-primary-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6rpx 20rpx rgba(22, 28, 45, 0.12);
+  z-index: 50;
+  animation: bt-in var(--ff-tr) ease-out;
+  transition: transform var(--ff-tr-fast), box-shadow var(--ff-tr-fast), background var(--ff-tr-fast);
+}
+.back-top:active {
+  transform: scale(0.92);
+  box-shadow: 0 4rpx 14rpx rgba(22, 28, 45, 0.1);
+  background: #ffffff;
+}
+.back-top .bt-ico {
+  width: 36rpx;
+  height: 36rpx;
+}
+@keyframes bt-in {
+  from { opacity: 0; transform: scale(0.6) translateY(24rpx); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}

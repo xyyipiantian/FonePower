@@ -1,0 +1,108 @@
+<!-- 健身动作库：搜索 + 分类筛选 + 列表浏览 -->
+<view class="page">
+
+  <!-- 顶部标题 -->
+  <view class="hero-head">
+    <view class="hero-title">健身动作库</view>
+    <view class="hero-sub">共 {{libraryTotal}} 个动作 · 按部位 / 器械 / 目标筛选</view>
+  </view>
+
+  <!-- 搜索框 -->
+  <view class="search-bar">
+    <view class="search-ico ico ico-search"></view>
+    <input
+      class="search-input"
+      placeholder="搜索动作名称"
+      placeholder-class="search-ph"
+      value="{{keyword}}"
+      confirm-type="search"
+      bindinput="onSearch"
+    />
+    <view wx:if="{{keyword}}" class="search-clear" bindtap="clearKeyword"><view class="sc-x ico ico-close"></view></view>
+  </view>
+
+  <!-- 筛选维度切换 -->
+  <view class="dim-tabs">
+    <view
+      class="dim-tab {{activeDim === 'bodyPart' ? 'active' : ''}}"
+      bindtap="setDim"
+      data-dim="bodyPart"
+    >身体部位</view>
+    <view
+      class="dim-tab {{activeDim === 'equipment' ? 'active' : ''}}"
+      bindtap="setDim"
+      data-dim="equipment"
+    >训练器械</view>
+    <view
+      class="dim-tab {{activeDim === 'target' ? 'active' : ''}}"
+      bindtap="setDim"
+      data-dim="target"
+    >目标肌群</view>
+  </view>
+
+  <!-- 维度下的可选项（横向滚动） -->
+  <scroll-view class="chip-scroll" scroll-x enable-flex>
+    <view
+      class="chip {{activeValue === '' ? 'active' : ''}}"
+      bindtap="selectValue"
+      data-value=""
+    >全部</view>
+    <view
+      wx:for="{{options}}"
+      wx:key="value"
+      class="chip {{activeValue === item.value ? 'active' : ''}}"
+      bindtap="selectValue"
+      data-value="{{item.value}}"
+    >{{item.label}}<text class="chip-count">{{item.count}}</text></view>
+  </scroll-view>
+
+  <!-- 结果计数 -->
+  <view class="count-row">
+    <text class="count-num">{{total}}</text>
+    <text class="count-label">个匹配动作</text>
+    <text wx:if="{{activeValue}}" class="count-reset" bindtap="selectValue" data-value="">重置筛选</text>
+  </view>
+
+  <!-- 动作网格 -->
+  <view class="grid" wx:if="{{list.length > 0}}">
+    <view
+      class="card"
+      wx:for="{{list}}"
+      wx:key="id"
+      bindtap="goDetail"
+      data-id="{{item.id}}"
+    >
+      <view class="thumb">
+        <image
+          wx:if="{{!item._err}}"
+          class="thumb-img"
+          src="{{item.image}}"
+          mode="aspectFill"
+          lazy-load
+          binderror="onImgError"
+          data-id="{{item.id}}"
+        />
+        <view wx:else class="thumb ph-box">{{item.initial}}</view>
+        <view class="thumb-tag">{{item.bodyPartLabel}}</view>
+      </view>
+      <view class="card-name">{{item.name}}</view>
+      <view class="card-meta">{{item.equipmentLabel}} · {{item.targetLabel}}</view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:else class="empty">
+    <view class="empty-ico ico ico-dumbbell-gray"></view>
+    <view class="empty-text">没有找到匹配的动作</view>
+    <view class="empty-sub">试试更换筛选条件或关键词</view>
+  </view>
+
+  <view wx:if="{{hasMore}}" class="load-more">上拉加载更多…</view>
+
+  <view class="safe-bottom"></view>
+
+  <!-- 一键返回顶部 -->
+  <view wx:if="{{showBackTop}}" class="back-top" bindtap="scrollToTop" aria-label="返回顶部">
+    <view class="bt-ico ico ico-chevron-up-primary"></view>
+  </view>
+</view>

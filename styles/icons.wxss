@@ -1,0 +1,96 @@
+/* =====================================================================
+   FitFlow · 矢量图标系统 (Vector Icon System)
+   实现：内嵌 SVG data-uri 背景图，颜色随图形内嵌；零 emoji、零外部字体依赖。
+   用法：<view class="ico ico-xxx"></view> ，尺寸由所在上下文类控制。
+   ===================================================================== */
+
+.ico {
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  vertical-align: middle;
+}
+
+/* ---- 动作库（九宫格 apps） ---- */
+.ico-lib {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%239AA3B2'%3E%3Crect x='3' y='3' width='7' height='7' rx='2'/%3E%3Crect x='14' y='3' width='7' height='7' rx='2'/%3E%3Crect x='3' y='14' width='7' height='7' rx='2'/%3E%3Crect x='14' y='14' width='7' height='7' rx='2'/%3E%3C/svg%3E");
+}
+.ico-lib--on {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300A87C'%3E%3Crect x='3' y='3' width='7' height='7' rx='2'/%3E%3Crect x='14' y='3' width='7' height='7' rx='2'/%3E%3Crect x='3' y='14' width='7' height='7' rx='2'/%3E%3Crect x='14' y='14' width='7' height='7' rx='2'/%3E%3C/svg%3E");
+}
+
+/* ---- 训练计划（日历） ---- */
+.ico-calendar {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239AA3B2' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4.5' width='18' height='16.5' rx='3'/%3E%3Cpath d='M3,9h18M8,2.5v4M16,2.5v4'/%3E%3C/svg%3E");
+}
+.ico-calendar--on {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300A87C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4.5' width='18' height='16.5' rx='3'/%3E%3Cpath d='M3,9h18M8,2.5v4M16,2.5v4'/%3E%3C/svg%3E");
+}
+
+/* ---- 收藏（心形：描边 / 橙填充 / 青填充） ---- */
+.ico-heart-o {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239AA3B2' stroke-width='2' stroke-linejoin='round'%3E%3Cpath d='M12,21.35l-1.45-1.32C5.4,15.36,2,12.28,2,8.5C2,5.42,4.42,3,7.5,3c1.74,0,3.41,0.81,4.5,2.09C13.09,3.81,14.76,3,16.5,3C19.58,3,22,5.42,22,8.5c0,3.78-3.4,6.86-8.55,11.54L12,21.35z'/%3E%3C/svg%3E");
+}
+.ico-heart {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF7A45'%3E%3Cpath d='M12,21.35l-1.45-1.32C5.4,15.36,2,12.28,2,8.5C2,5.42,4.42,3,7.5,3c1.74,0,3.41,0.81,4.5,2.09C13.09,3.81,14.76,3,16.5,3C19.58,3,22,5.42,22,8.5c0,3.78-3.4,6.86-8.55,11.54L12,21.35z'/%3E%3C/svg%3E");
+}
+.ico-heart--on {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300A87C'%3E%3Cpath d='M12,21.35l-1.45-1.32C5.4,15.36,2,12.28,2,8.5C2,5.42,4.42,3,7.5,3c1.74,0,3.41,0.81,4.5,2.09C13.09,3.81,14.76,3,16.5,3C19.58,3,22,5.42,22,8.5c0,3.78-3.4,6.86-8.55,11.54L12,21.35z'/%3E%3C/svg%3E");
+}
+
+/* ---- 我的（用户） ---- */
+.ico-user {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%239AA3B2'%3E%3Cpath d='M12,12a5,5,0,1,0,0-10,5,5,0,0,0,0,10zM12,14c-4.4,0-8,2.69-8,6v1h16v-1C20,16.69,16.4,14,12,14z'/%3E%3C/svg%3E");
+}
+.ico-user--on {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300A87C'%3E%3Cpath d='M12,12a5,5,0,1,0,0-10,5,5,0,0,0,0,10zM12,14c-4.4,0-8,2.69-8,6v1h16v-1C20,16.69,16.4,14,12,14z'/%3E%3C/svg%3E");
+}
+
+/* ---- 搜索 ---- */
+.ico-search {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233A4252' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M21,21l-4.3-4.3'/%3E%3C/svg%3E");
+}
+
+/* ---- 关闭 close ---- */
+.ico-close {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233A4252' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6,6l12,12M18,6L6,18'/%3E%3C/svg%3E");
+}
+
+/* ---- 哑铃（品牌 / 空状态 / 训练计划水印） ---- */
+.ico-dumbbell {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFFFFF'%3E%3Crect x='2' y='9' width='3' height='6' rx='1'/%3E%3Crect x='19' y='9' width='3' height='6' rx='1'/%3E%3Crect x='5.5' y='10.3' width='2' height='3.4' rx='1'/%3E%3Crect x='16.5' y='10.3' width='2' height='3.4' rx='1'/%3E%3Crect x='7.5' y='11' width='9' height='2' rx='1'/%3E%3C/svg%3E");
+}
+.ico-dumbbell-gray {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23C9D2DE'%3E%3Crect x='2' y='9' width='3' height='6' rx='1'/%3E%3Crect x='19' y='9' width='3' height='6' rx='1'/%3E%3Crect x='5.5' y='10.3' width='2' height='3.4' rx='1'/%3E%3Crect x='16.5' y='10.3' width='2' height='3.4' rx='1'/%3E%3Crect x='7.5' y='11' width='9' height='2' rx='1'/%3E%3C/svg%3E");
+}
+
+/* ---- 时钟（时长） ---- */
+.ico-clock {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300A87C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12,7v5l3.5,2'/%3E%3C/svg%3E");
+}
+
+/* ---- 箭头（导航） ---- */
+.ico-chevron {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239AA3B2' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9,6l6,6-6,6'/%3E%3C/svg%3E");
+}
+
+/* ---- 返回顶部（白色上箭头，用于渐变悬浮按钮） ---- */
+.ico-chevron-up {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FFFFFF' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6,14l6-6,6,6'/%3E%3C/svg%3E");
+}
+
+/* ---- 返回顶部（品牌主色上箭头，用于白底悬浮按钮） ---- */
+.ico-chevron-up-primary {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23008663' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6,14l6-6,6,6'/%3E%3C/svg%3E");
+}
+
+/* ---- 播放（开始训练） ---- */
+.ico-play {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFFFFF'%3E%3Cpath d='M8,5.5v13l11-6.5z'/%3E%3C/svg%3E");
+}
+
+/* ---- 火焰（难度） ---- */
+.ico-fire {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF7A45'%3E%3Cpath d='M13,2c0.5,3-1.5,4.5-2.5,6.5C9.3,10.6,10,12.5,12,12.5c-0.3-1.3,0-2.3,0-2.3c2.2,1.2,3.3,3.4,3.3,5.6a5.3,5.3,0,0,1-10.6,0c0-3.2,2.1-5.3,3.4-7.4C9.2,6.8,11.5,4.8,13,2z'/%3E%3C/svg%3E");
+}

@@ -1,0 +1,51 @@
+<!-- 我的：品牌概览 + 统计 + 关于 -->
+<view class="page">
+
+  <!-- 品牌 Hero 卡 -->
+  <view class="brand">
+    <view class="brand-logo"><view class="ico ico-dumbbell bl-ico"></view></view>
+    <view class="brand-name">FitFlow</view>
+    <view class="brand-tag">健身动作库 · 科学训练指南</view>
+  </view>
+
+  <!-- 统计 -->
+  <view class="stats">
+    <view class="stat">
+      <view class="stat-num ff-gradient-text">{{total}}</view>
+      <view class="stat-label">动作总数</view>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat">
+      <view class="stat-num">{{bodyPartCount}}</view>
+      <view class="stat-label">身体部位</view>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat">
+      <view class="stat-num">{{favCount}}</view>
+      <view class="stat-label">我的收藏</view>
+    </view>
+  </view>
+
+  <!-- 关于数据源 -->
+  <view class="section">
+    <view class="sec-title">关于数据</view>
+    <view class="about-text">
+      本应用动作数据来源于开源数据集
+      <text class="link">exercises-dataset</text>，涵盖
+      {{total}} 个训练动作，支持按身体部位、训练器械与目标肌群多维度检索。
+    </view>
+    <view class="attr">演示媒体版权归属原作者，仅作学习展示之用。</view>
+  </view>
+
+  <!-- 设计系统说明 -->
+  <view class="section">
+    <view class="sec-title">界面设计</view>
+    <view class="about-text">
+      全站基于统一设计系统构建：青绿活力主色（Vitality Emerald）+
+      能量橙强调色（Energy Orange），4rpx 间距基准、四级阴影海拔与
+      品牌渐变，确保跨页面视觉一致与无障碍可读。
+    </view>
+  </view>
+
+  <view class="safe-bottom"></view>
+</view>

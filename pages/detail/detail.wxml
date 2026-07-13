@@ -1,0 +1,57 @@
+<!-- 动作详情：GIF 演示 + 肌群 + 分步要领 -->
+<view class="page" wx:if="{{ex}}">
+
+  <!-- 演示区 -->
+  <view class="hero">
+    <image
+      wx:if="{{!ex._err}}"
+      class="hero-gif"
+      src="{{ex.gif}}"
+      mode="aspectFit"
+      binderror="onErr"
+    />
+    <view wx:else class="hero ph-box">{{ex.initial}}</view>
+    <view class="fav-btn {{fav ? 'on' : ''}}" catchtap="toggleFav">
+      <view class="fav-ico ico {{fav ? 'ico-heart' : 'ico-heart-o'}}"></view>
+    </view>
+  </view>
+
+  <!-- 标题与标签 -->
+  <view class="head">
+    <view class="name">{{ex.name}}</view>
+    <view class="tags">
+      <text class="tag primary">{{ex.bodyPartLabel}}</text>
+      <text class="tag">{{ex.equipmentLabel}}</text>
+    </view>
+  </view>
+
+  <!-- 肌群 -->
+  <view class="section">
+    <view class="sec-title">涉及肌群</view>
+    <view class="tag-row">
+      <text class="tag primary">{{ex.targetLabel}}</text>
+      <text class="tag" wx:for="{{ex.secondaryMusclesLabel}}" wx:key="*this">{{item}}</text>
+    </view>
+  </view>
+
+  <!-- 动作要领 -->
+  <view class="section">
+    <view class="sec-title">动作要领</view>
+    <view class="steps" wx:if="{{ex.steps.length > 0}}">
+      <view class="step" wx:for="{{ex.steps}}" wx:key="index">
+        <view class="step-no">{{index + 1}}</view>
+        <view class="step-text">{{item}}</view>
+      </view>
+    </view>
+    <view class="no-steps" wx:else>暂无分步说明</view>
+  </view>
+
+  <!-- 媒体来源 -->
+  <view class="attr">媒体来源：{{ex.attribution}}</view>
+
+  <view class="safe-bottom"></view>
+</view>
+
+<view wx:else class="empty">
+  <view class="empty-text">未找到该动作</view>
+</view>

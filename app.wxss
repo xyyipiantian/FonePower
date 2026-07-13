@@ -1,0 +1,210 @@
+@import './styles/icons.wxss';
+
+/* =====================================================================
+   FitFlow · 全局设计系统 (Design Tokens + 复用组件)
+   UI Designer: 像素君
+   说明：所有视觉变量集中在此，页面样式仅消费变量，保证一致性。
+   ===================================================================== */
+
+page {
+  /* ---------- 色彩 · 主色阶 (Vitality Emerald) ---------- */
+  --ff-primary-50:  #E6F8F2;
+  --ff-primary-100: #C9F0E5;
+  --ff-primary-200: #9DE3D0;
+  --ff-primary-300: #5FD4B8;
+  --ff-primary-400: #1FC79F;
+  --ff-primary-500: #00C896;   /* 品牌主色 */
+  --ff-primary-600: #00A87C;   /* 深一档（标题/激活态文字） */
+  --ff-primary-700: #008663;
+  --ff-primary-800: #00654B;
+  --ff-primary-900: #00452F;
+
+  /* ---------- 色彩 · 强调色 (Energy Orange) ---------- */
+  --ff-accent-50:  #FFF1EA;
+  --ff-accent-100: #FFE0D1;
+  --ff-accent-200: #FFC4A8;
+  --ff-accent-300: #FFA67E;
+  --ff-accent-400: #FF8A4C;
+  --ff-accent-500: #FF7A45;
+  --ff-accent-600: #F2641E;
+  --ff-accent-700: #D24F12;
+
+  /* ---------- 色彩 · 中性 (Neutral Ink) ---------- */
+  --ff-bg:        #F4F6F9;
+  --ff-surface:   #FFFFFF;
+  --ff-surface-2: #FBFCFE;
+  --ff-ink-900:   #161C2D;
+  --ff-ink-700:   #3A4252;
+  --ff-ink-500:   #6B7280;
+  --ff-ink-400:   #9AA3B2;
+  --ff-line:      #ECEFF3;
+  --ff-line-strong: #E2E6EC;
+
+  /* ---------- 色彩 · 语义 (Semantic) ---------- */
+  --ff-success: #16A34A;
+  --ff-warning: #F59E0B;
+  --ff-danger:  #EF4444;
+  --ff-info:    #3B82F6;
+
+  /* ---------- 渐变 (Brand Gradients) ---------- */
+  --ff-grad-primary: linear-gradient(135deg, #00C896 0%, #16D6A6 100%);
+  --ff-grad-hero:    linear-gradient(135deg, #00A87C 0%, #00D6A8 55%, #4BE3B4 100%);
+  --ff-grad-accent:  linear-gradient(135deg, #FF8A4C 0%, #FF6A3D 100%);
+
+  /* ---------- 圆角 (Radius) ---------- */
+  --ff-r-sm: 12rpx;
+  --ff-r-md: 16rpx;
+  --ff-r-lg: 20rpx;
+  --ff-r-xl: 28rpx;
+  --ff-r-full: 999rpx;
+
+  /* ---------- 间距 (Spacing · 4rpx 基准) ---------- */
+  --ff-sp-1: 4rpx;
+  --ff-sp-2: 8rpx;
+  --ff-sp-3: 12rpx;
+  --ff-sp-4: 16rpx;
+  --ff-sp-5: 20rpx;
+  --ff-sp-6: 24rpx;
+  --ff-sp-7: 32rpx;
+  --ff-sp-8: 40rpx;
+  --ff-sp-10: 48rpx;
+  --ff-sp-12: 64rpx;
+
+  /* ---------- 阴影 (Elevation) ---------- */
+  --ff-shadow-xs: 0 2rpx 6rpx rgba(22, 28, 45, 0.04);
+  --ff-shadow-sm: 0 4rpx 12rpx rgba(22, 28, 45, 0.06);
+  --ff-shadow-md: 0 8rpx 24rpx rgba(22, 28, 45, 0.08);
+  --ff-shadow-lg: 0 16rpx 40rpx rgba(22, 28, 45, 0.10);
+
+  /* ---------- 动效 (Motion) ---------- */
+  --ff-tr-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --ff-tr: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ---------- 字体 (Typography) ---------- */
+  --ff-font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Helvetica, sans-serif;
+  --ff-fs-xs: 20rpx;
+  --ff-fs-sm: 22rpx;
+  --ff-fs-base: 26rpx;
+  --ff-fs-md: 28rpx;
+  --ff-fs-lg: 30rpx;
+  --ff-fs-xl: 34rpx;
+  --ff-fs-2xl: 40rpx;
+  --ff-fs-3xl: 48rpx;
+  --ff-fs-4xl: 56rpx;
+
+  /* ---------- 向后兼容别名（旧页面引用） ---------- */
+  --primary: var(--ff-primary-500);
+  --primary-dark: var(--ff-primary-600);
+  --primary-soft: var(--ff-primary-50);
+  --accent: var(--ff-accent-500);
+  --bg: var(--ff-bg);
+  --card: var(--ff-surface);
+  --text: var(--ff-ink-900);
+  --text-2: var(--ff-ink-500);
+  --text-3: var(--ff-ink-400);
+  --line: var(--ff-line);
+  --radius: var(--ff-r-lg);
+
+  background: var(--ff-bg);
+  color: var(--ff-ink-900);
+  font-family: var(--ff-font);
+  font-size: var(--ff-fs-md);
+  line-height: 1.5;
+}
+
+view, text, scroll-view, input, image, navigator {
+  box-sizing: border-box;
+}
+
+/* =====================================================================
+   复用组件 · 标签 Tag
+   ===================================================================== */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 6rpx 18rpx;
+  margin: 0 12rpx 12rpx 0;
+  font-size: var(--ff-fs-sm);
+  line-height: 1.4;
+  color: var(--ff-ink-500);
+  background: var(--ff-line);
+  border-radius: var(--ff-r-full);
+}
+.tag.primary {
+  color: #fff;
+  background: var(--ff-grad-primary);
+}
+.tag.accent {
+  color: #fff;
+  background: var(--ff-grad-accent);
+}
+
+/* =====================================================================
+   复用组件 · 区块标题 Section Title
+   ===================================================================== */
+.sec-title {
+  font-size: var(--ff-fs-lg);
+  font-weight: 700;
+  color: var(--ff-ink-900);
+  margin-bottom: 18rpx;
+  padding-left: 20rpx;
+  position: relative;
+}
+.sec-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 6rpx;
+  bottom: 6rpx;
+  width: 6rpx;
+  border-radius: 6rpx;
+  background: var(--ff-grad-primary);
+}
+
+/* =====================================================================
+   复用组件 · 媒体占位 (加载失败兜底)
+   ===================================================================== */
+.ph-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ff-grad-hero);
+  color: #fff;
+  font-weight: 700;
+}
+
+/* =====================================================================
+   工具类 · 通用卡片 / 按压反馈 / 渐变文字 / 分隔线 / 空状态
+   ===================================================================== */
+.ff-card {
+  background: var(--ff-surface);
+  border-radius: var(--ff-r-lg);
+  box-shadow: var(--ff-shadow-sm);
+}
+.ff-press {
+  transition: transform var(--ff-tr-fast), box-shadow var(--ff-tr-fast);
+}
+.ff-press:active {
+  transform: scale(0.97);
+}
+.ff-gradient-text {
+  background: var(--ff-grad-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.ff-divider {
+  height: 2rpx;
+  background: var(--ff-line);
+}
+.ff-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 96rpx 0;
+  text-align: center;
+}
+.ff-empty-ico { width: 96rpx; height: 96rpx; }
+.ff-empty-text { margin-top: 20rpx; font-size: var(--ff-fs-xl); color: var(--ff-ink-900); font-weight: 600; }
+.ff-empty-sub { margin-top: 8rpx; font-size: var(--ff-fs-base); color: var(--ff-ink-400); }

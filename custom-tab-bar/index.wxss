@@ -1,0 +1,101 @@
+/* =====================================================================
+   FitFlow · 自定义 TabBar  —  固定高度 + 纯白不透明背景
+   结构：tabbar（定位 + 总高度）> tabbar-bg（独立背景层）> tabbar-inner（内容区）
+   ===================================================================== */
+
+/* 容器：固定在底部，总高度 = 120rpx 内容区 + 安全区 */
+.tabbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99999;
+  display: flex;
+  width: 100%;
+  height: 120rpx;
+  padding-bottom: env(safe-area-inset-bottom);
+  box-sizing: content-box; /* 120rpx 仅指内容区高度，padding 额外加在底部 */
+}
+
+/* 独立背景层：覆盖整个 tabbar 区域（含安全区），保证完全不透明 */
+.tabbar-bg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 0;
+  background: #ffffff;
+  background-color: #ffffff;
+  box-shadow: 0 -6rpx 30rpx rgba(22, 28, 45, 0.12);
+  border-top: 1rpx solid #e2e6ec;
+}
+
+/* 内容区：始终 120rpx 高，图标/文字垂直居中 */
+.tabbar-inner {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  height: 120rpx;
+}
+
+.tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--ff-ink-500);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tab-pill {
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6rpx;
+  border-radius: var(--ff-r-full);
+  background: transparent;
+  transition: transform var(--ff-tr-fast), background var(--ff-tr-fast);
+}
+
+.tab-ico {
+  width: 52rpx;
+  height: 52rpx;
+  transition: transform var(--ff-tr-fast);
+}
+
+.tab-text {
+  font-size: 22rpx;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.5rpx;
+  transition: color var(--ff-tr-fast), transform var(--ff-tr-fast);
+}
+
+.tab.active {
+  color: var(--ff-primary-600);
+}
+
+.tab.active .tab-pill {
+  transform: translateY(-4rpx);
+  background: var(--ff-primary-50);
+}
+
+.tab.active .tab-ico {
+  transform: scale(1.12);
+}
+
+.tab.active .tab-text {
+  transform: translateY(-2rpx);
+  font-weight: 700;
+}
+
+.tab:active {
+  opacity: 0.72;
+}

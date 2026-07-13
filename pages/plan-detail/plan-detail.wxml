@@ -1,0 +1,58 @@
+<view class="page" wx:if="{{plan}}">
+
+  <view class="hero {{plan.hue}}">
+    <view class="hero-wm ico ico-dumbbell"></view>
+    <view class="hero-level"><view class="hl-fire ico ico-fire"></view>{{plan.level}}</view>
+    <view class="hero-name">{{plan.name}}</view>
+    <view class="hero-meta">
+      <view class="hm"><view class="hm-ico ico ico-clock"></view>{{plan.duration}}</view>
+      <view class="hm-count">{{exercises.length}} 个动作</view>
+    </view>
+  </view>
+
+  <view class="desc-card ff-card">
+    <view class="desc-text">{{plan.desc}}</view>
+    <view class="desc-tags">
+      <text class="tag primary" wx:for="{{plan.target}}" wx:key="*this" wx:for-item="t">{{t}}</text>
+    </view>
+  </view>
+
+  <view class="start-btn" bindtap="startTrain">
+    <view class="sb-ico ico ico-play"></view>开始训练
+  </view>
+
+  <view class="sec-title">训练动作</view>
+
+  <view class="ex-list">
+    <view
+      class="ex-row ff-card ff-press"
+      wx:for="{{exercises}}"
+      wx:key="id"
+      bindtap="goDetail"
+      data-id="{{item.id}}"
+    >
+      <view class="ex-no">{{index + 1}}</view>
+      <image
+        wx:if="{{!item._err}}"
+        class="ex-thumb"
+        src="{{item.image}}"
+        mode="aspectFill"
+        lazy-load
+        binderror="onImgError"
+        data-id="{{item.id}}"
+      />
+      <view wx:else class="ex-thumb ph-box">{{item.initial}}</view>
+      <view class="ex-info">
+        <view class="ex-name">{{item.name}}</view>
+        <view class="ex-meta">{{item.bodyPartLabel}} · {{item.targetLabel}}</view>
+      </view>
+      <view class="ex-go ico ico-chevron"></view>
+    </view>
+  </view>
+
+  <view class="safe-bottom"></view>
+</view>
+
+<view wx:else class="empty">
+  <view class="empty-text">未找到该计划</view>
+</view>

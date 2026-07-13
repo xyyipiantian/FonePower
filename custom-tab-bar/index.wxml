@@ -1,0 +1,21 @@
+<!-- 自定义底部导航 · 固定高度 + 纯白不透明背景层 -->
+<view class="tabbar">
+  <!-- 独立背景层：保证完整覆盖底部安全区，不被页面内容叠压 -->
+  <view class="tabbar-bg"></view>
+
+  <!-- 内容区：固定 120rpx，不参与安全区高度 -->
+  <view class="tabbar-inner">
+    <view
+      wx:for="{{list}}"
+      wx:key="index"
+      class="tab {{selected === index ? 'active' : ''}}"
+      data-index="{{index}}"
+      bindtap="switchTab"
+    >
+      <view class="tab-pill">
+        <view class="tab-ico ico {{item.icon}} {{selected === index ? item.iconOn : ''}}"></view>
+      </view>
+      <view class="tab-text">{{item.text}}</view>
+    </view>
+  </view>
+</view>
