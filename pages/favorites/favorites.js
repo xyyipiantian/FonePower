@@ -60,5 +60,13 @@ Page({
       title: 'FitFlow 健身动作库 · 一键收藏你喜欢的标准动作',
       path: 'pages/index/index'
     };
+  },
+
+  // 分享到朋友圈：同样落地到动作库首页，避免入口灰掉
+  onShareTimeline() {
+    return {
+      title: 'FitFlow 健身动作库 · 一键收藏标准动作',
+      query: ''
+    };
   }
 });

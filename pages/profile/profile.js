@@ -30,5 +30,13 @@ Page({
       title: 'FitFlow 健身动作库 · 千余条动作动态图解与训练计划',
       path: 'pages/index/index'
     };
+  },
+
+  // 分享到朋友圈：同样落地到动作库首页，避免入口灰掉
+  onShareTimeline() {
+    return {
+      title: 'FitFlow 健身动作库 · 千余条动作动态图解与训练计划',
+      query: ''
+    };
   }
 });
