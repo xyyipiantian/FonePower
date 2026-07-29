@@ -1,4 +1,5 @@
 const plans = require('../../utils/plans.js');
+const favGuide = require('../../utils/favGuide.js');
 
 Page({
   data: {
@@ -13,6 +14,10 @@ Page({
   onShow() {
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       this.getTabBar().setData({ selected: 1 });
+    }
+    if (favGuide.isShareEntry()) {
+      const comp = this.selectComponent('#favGuide');
+      favGuide.tryGuide(comp, { text: '把 FitFlow 放进「我的小程序」，下拉就能练，不用再搜。' });
     }
   },
 
@@ -46,5 +51,10 @@ Page({
       title: 'FitFlow 训练计划 · 科学规划日常训练',
       query: ''
     };
+  },
+
+  // 原生菜单「收藏」：定制收藏卡片标题
+  onAddToFavorites() {
+    return { title: 'FitFlow 训练计划 · 科学编排的跟练方案' };
   }
 });

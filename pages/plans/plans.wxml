@@ -38,4 +38,7 @@
   <view wx:if="{{showBackTop}}" class="back-top" bindtap="scrollToTop" aria-label="返回顶部">
     <view class="bt-ico ico ico-chevron-up-primary"></view>
   </view>
+
+  <!-- 收藏引导（添加到「我的小程序」） -->
+  <fav-guide id="favGuide" />
 </view>

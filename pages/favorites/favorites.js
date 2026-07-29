@@ -1,4 +1,5 @@
 const exercises = require('../../utils/exercises.js');
+const favGuide = require('../../utils/favGuide.js');
 
 const FAV_KEY = 'ff_favorites';
 function getFavs() {
@@ -25,6 +26,10 @@ Page({
 
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       this.getTabBar().setData({ selected: 2 });
+    }
+    if (favGuide.isShareEntry()) {
+      const comp = this.selectComponent('#favGuide');
+      favGuide.tryGuide(comp, { text: '把 FitFlow 放进「我的小程序」，下拉就能练，不用再搜。' });
     }
   },
 
@@ -68,5 +73,10 @@ Page({
       title: 'FitFlow 健身动作库 · 一键收藏标准动作',
       query: ''
     };
+  },
+
+  // 原生菜单「收藏」：定制收藏卡片标题
+  onAddToFavorites() {
+    return { title: 'FitFlow 我的收藏 · 一键收藏标准动作' };
   }
 });

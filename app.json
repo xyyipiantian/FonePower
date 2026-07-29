@@ -39,5 +39,8 @@
     ]
   },
   "style": "v2",
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "usingComponents": {
+    "fav-guide": "/components/fav-guide/fav-guide"
+  }
 }

@@ -44,4 +44,7 @@
   <view wx:if="{{hasMore}}" class="load-more">上拉加载更多…</view>
 
   <view class="safe-bottom"></view>
+
+  <!-- 收藏引导（添加到「我的小程序」） -->
+  <fav-guide id="favGuide" />
 </view>

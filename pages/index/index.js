@@ -1,4 +1,5 @@
 const exercises = require('../../utils/exercises.js');
+const favGuide = require('../../utils/favGuide.js');
 
 // 每页条数：控制单次 setData 传输量，避免触发性能告警（建议 < 256KB/次）
 const PAGE_SIZE = 120;
@@ -24,6 +25,14 @@ Page({
   onShow() {
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       this.getTabBar().setData({ selected: 0 });
+    }
+    const comp = this.selectComponent('#favGuide');
+    if (favGuide.isShareEntry()) {
+      // 通过分享卡片进入：黄金转化窗口，引导添加到我的小程序
+      favGuide.tryGuide(comp, { text: '把 FitFlow 放进「我的小程序」，下拉就能练，不用再搜。' });
+    } else if (favGuide.getBrowsedCount() >= 5) {
+      // P2 兜底：高活跃但从未引导过的用户
+      favGuide.tryGuide(comp, { text: '常来练？把 FitFlow 放进「我的小程序」，下拉就能打开。' });
     }
   },
 
@@ -119,5 +128,10 @@ Page({
       title: 'FitFlow 健身动作库 · 千余条动作动态图解，科学跟练',
       query: ''
     };
+  },
+
+  // 原生菜单「收藏」：定制收藏卡片标题
+  onAddToFavorites() {
+    return { title: 'FitFlow 健身动作库 · 千余条标准动作动态图解' };
   }
 });

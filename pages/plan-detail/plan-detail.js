@@ -1,5 +1,6 @@
 const exercises = require('../../utils/exercises.js');
 const plans = require('../../utils/plans.js');
+const favGuide = require('../../utils/favGuide.js');
 
 Page({
   data: {
@@ -38,6 +39,20 @@ Page({
     wx.navigateTo({ url: `/pages/detail/detail?id=${first.id}` });
   },
 
+  onShow() {
+    // 通过分享卡片进入计划详情：引导添加到我的小程序
+    if (favGuide.isShareEntry()) {
+      const comp = this.selectComponent('#favGuide');
+      favGuide.tryGuide(comp, { text: '喜欢这份计划？添加到「我的小程序」，随时回看。' });
+    }
+  },
+
+  // 滑到底部（完成浏览计划）：轻提示收藏
+  onReachBottom() {
+    const comp = this.selectComponent('#favGuide');
+    favGuide.tryGuide(comp, { text: '把这份计划存进「我的小程序」，下次一点就开练。' });
+  },
+
   // 转发给好友：携带计划 id，打开直达对应计划详情
   onShareAppMessage() {
     const plan = this.data.plan;
@@ -60,5 +75,12 @@ Page({
       title: `${plan.name} · 科学训练计划`,
       query: `id=${plan.id}`
     };
+  },
+
+  // 原生菜单「收藏」：定制收藏卡片标题
+  onAddToFavorites() {
+    const plan = this.data.plan;
+    const res = { title: (plan && plan.name ? plan.name + ' · ' : '') + 'FitFlow 训练计划' };
+    return res;
   }
 });

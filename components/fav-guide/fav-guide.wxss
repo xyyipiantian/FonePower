@@ -1,0 +1,100 @@
+/* 收藏引导组件样式：z-index 高于自定义 TabBar（99999） */
+.fg-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  padding: 16rpx 24rpx;
+  background: rgba(0, 24, 18, 0.92);
+  color: #fff;
+  font-size: 24rpx;
+  line-height: 1.4;
+  box-sizing: border-box;
+  animation: fg-in 0.24s ease-out;
+}
+@keyframes fg-in {
+  from { transform: translateY(-100%); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+.fg-arrow {
+  position: absolute;
+  top: -10rpx;
+  width: 0;
+  height: 0;
+  border-left: 10rpx solid transparent;
+  border-right: 10rpx solid transparent;
+  border-bottom: 12rpx solid rgba(0, 24, 18, 0.92);
+}
+.fg-text {
+  flex: 1;
+  margin-right: 16rpx;
+}
+.fg-close {
+  width: 40rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  text-align: center;
+  font-size: 34rpx;
+  opacity: 0.7;
+  flex: none;
+}
+.fg-mask {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 100001;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: flex-end;
+}
+.fg-card {
+  width: 100%;
+  background: #fff;
+  border-radius: 28rpx 28rpx 0 0;
+  padding: 40rpx 32rpx;
+  padding-bottom: calc(40rpx + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+  animation: fg-up 0.26s ease-out;
+}
+@keyframes fg-up {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+.fg-card-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #0B1F1A;
+  margin-bottom: 16rpx;
+}
+.fg-card-desc {
+  font-size: 26rpx;
+  color: #5B6B66;
+  line-height: 1.6;
+  margin-bottom: 32rpx;
+}
+.fg-card-actions {
+  display: flex;
+  gap: 20rpx;
+}
+.fg-btn-ghost,
+.fg-btn-primary {
+  flex: 1;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  border-radius: 44rpx;
+  font-size: 30rpx;
+}
+.fg-btn-ghost {
+  background: #F1F3F5;
+  color: #5B6B66;
+}
+.fg-btn-primary {
+  background: #00A87C;
+  color: #fff;
+}

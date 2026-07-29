@@ -1,0 +1,17 @@
+<!-- 收藏引导组件：顶部引导条（指向胶囊菜单）+ P0 轻量模态 -->
+<view wx:if="{{visible && mode === 'bar'}}" class="fg-bar" catchtap="onBarTap">
+  <view class="fg-arrow" style="{{arrowStyle}}"></view>
+  <text class="fg-text">{{text}}</text>
+  <view class="fg-close" catchtap="onClose">×</view>
+</view>
+
+<view wx:if="{{visible && mode === 'modal'}}" class="fg-mask" catchtap="onClose">
+  <view class="fg-card" catchtap="noOp">
+    <view class="fg-card-title">{{title}}</view>
+    <view class="fg-card-desc">{{text}}</view>
+    <view class="fg-card-actions">
+      <view class="fg-btn-ghost" catchtap="onClose">暂不</view>
+      <view class="fg-btn-primary" catchtap="onGoAdd">去添加 ↗</view>
+    </view>
+  </view>
+</view>

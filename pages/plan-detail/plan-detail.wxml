@@ -56,3 +56,6 @@
 <view wx:else class="empty">
   <view class="empty-text">未找到该计划</view>
 </view>
+
+<!-- 收藏引导（添加到「我的小程序」） -->
+<fav-guide id="favGuide" />

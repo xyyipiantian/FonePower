@@ -1,4 +1,5 @@
 const exercises = require('../../utils/exercises.js');
+const favGuide = require('../../utils/favGuide.js');
 
 const FAV_KEY = 'ff_favorites';
 function getFavs() {
@@ -22,6 +23,16 @@ Page({
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       this.getTabBar().setData({ selected: 3 });
     }
+
+    const comp = this.selectComponent('#favGuide');
+    if (this.data.favCount > 0) {
+      // P1：已有收藏资产，提示「换手机也不丢」引导添加
+      favGuide.tryGuide(comp, {
+        text: `你已收藏 ${this.data.favCount} 个动作，添加到「我的小程序」，换手机也不丢。`
+      });
+    } else if (favGuide.isShareEntry()) {
+      favGuide.tryGuide(comp, { text: '把 FitFlow 放进「我的小程序」，下拉就能练，不用再搜。' });
+    }
   },
 
   // 转发给好友：个人中心无独立内容，落地到动作库首页
@@ -38,5 +49,10 @@ Page({
       title: 'FitFlow 健身动作库 · 千余条动作动态图解与训练计划',
       query: ''
     };
+  },
+
+  // 原生菜单「收藏」：定制收藏卡片标题
+  onAddToFavorites() {
+    return { title: 'FitFlow 健身动作库 · 科学训练指南' };
   }
 });
