@@ -102,5 +102,22 @@ Page({
   goDetail(e) {
     const id = e.currentTarget.dataset.id;
     wx.navigateTo({ url: `/pages/detail/detail?id=${id}` });
+  },
+
+  // 转发给好友：以动作库首页为入口，携带收录总量
+  onShareAppMessage() {
+    const total = this.data.libraryTotal || (exercises.EXERCISES && exercises.EXERCISES.length) || 0;
+    return {
+      title: `FitFlow 健身动作库 · 收录 ${total} 个标准动作动态图解`,
+      path: 'pages/index/index'
+    };
+  },
+
+  // 分享到朋友圈：引导用户进入动作库
+  onShareTimeline() {
+    return {
+      title: 'FitFlow 健身动作库 · 千余条动作动态图解，科学跟练',
+      query: ''
+    };
   }
 });

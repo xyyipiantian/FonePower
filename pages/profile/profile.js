@@ -22,5 +22,13 @@ Page({
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       this.getTabBar().setData({ selected: 3 });
     }
+  },
+
+  // 转发给好友：个人中心无独立内容，落地到动作库首页
+  onShareAppMessage() {
+    return {
+      title: 'FitFlow 健身动作库 · 千余条动作动态图解与训练计划',
+      path: 'pages/index/index'
+    };
   }
 });

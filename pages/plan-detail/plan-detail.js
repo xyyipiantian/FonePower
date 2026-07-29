@@ -36,5 +36,29 @@ Page({
     if (!first) return;
     wx.showToast({ title: '开始第 1 个动作', icon: 'none' });
     wx.navigateTo({ url: `/pages/detail/detail?id=${first.id}` });
+  },
+
+  // 转发给好友：携带计划 id，打开直达对应计划详情
+  onShareAppMessage() {
+    const plan = this.data.plan;
+    if (!plan || !plan.id) {
+      return { title: 'FitFlow 训练计划', path: 'pages/plans/plans' };
+    }
+    return {
+      title: `${plan.name} · FitFlow 训练计划`,
+      path: `pages/plan-detail/plan-detail?id=${plan.id}`
+    };
+  },
+
+  // 分享到朋友圈：query 携带计划 id
+  onShareTimeline() {
+    const plan = this.data.plan;
+    if (!plan || !plan.id) {
+      return { title: 'FitFlow 训练计划', query: '' };
+    }
+    return {
+      title: `${plan.name} · 科学训练计划`,
+      query: `id=${plan.id}`
+    };
   }
 });

@@ -52,5 +52,13 @@ Page({
   goDetail(e) {
     const id = e.currentTarget.dataset.id;
     wx.navigateTo({ url: `/pages/detail/detail?id=${id}` });
+  },
+
+  // 转发给好友：个人收藏页无独立内容，落地到动作库首页并引导收藏功能
+  onShareAppMessage() {
+    return {
+      title: 'FitFlow 健身动作库 · 一键收藏你喜欢的标准动作',
+      path: 'pages/index/index'
+    };
   }
 });
