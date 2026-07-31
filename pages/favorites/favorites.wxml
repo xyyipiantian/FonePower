@@ -29,7 +29,7 @@
         <view wx:else class="thumb ph-box">{{item.initial}}</view>
         <view class="thumb-tag">{{item.bodyPartLabel}}</view>
       </view>
-      <view class="card-name">{{item.name}}</view>
+      <view class="card-name">{{item.nameZh || item.name}}</view>
       <view class="card-meta">{{item.equipmentLabel}} · {{item.targetLabel}}</view>
     </view>
   </view>

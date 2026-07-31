@@ -9,6 +9,11 @@ const OUT_DIR = path.join(__dirname, '..', 'utils');
 const OUT = path.join(OUT_DIR, 'exercises.js');
 const BASE = 'https://cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset@main/';
 
+// 中文动作名映射（id -> 中文名），由 dataset-ref/translate-names.js 生成。
+// 缺失时 nameZh 回退为英文原名，不影响构建。
+let ZHMAP = {};
+try { ZHMAP = require('./name-zh.json'); } catch (e) { console.warn('未找到 name-zh.json，nameZh 将回退为英文原名。'); }
+
 // 中文标签映射（覆盖 exercisedb 标准词表，未命中则做美化兜底）
 const MAP = {
   bodyPart: {
@@ -53,21 +58,30 @@ function label(dim, v) {
 }
 
 function main() {
-  const raw = JSON.parse(fs.readFileSync(SRC, 'utf8'));
+  // 输入源：优先 exercises.json（hasaneyldrm/exercises-dataset 原始数据）；
+  // 若缺失（如仅需重新注入 nameZh），则回退到已生成的 utils/exercises.js 的 EXERCISES。
+  let raw;
+  if (fs.existsSync(SRC)) {
+    raw = JSON.parse(fs.readFileSync(SRC, 'utf8'));
+  } else {
+    const mod = require(path.join(__dirname, '..', 'utils', 'exercises.js'));
+    raw = mod.EXERCISES || mod;
+  }
   console.log('原始记录数:', raw.length);
 
   const exes = raw
     .map(e => {
-      const instr = (e.instructions && (e.instructions.zh || e.instructions.en)) || '';
+      const instr = e.instructionsZh || (e.instructions && (e.instructions.zh || e.instructions.en)) || '';
       return {
         id: e.id,
         name: e.name,
-        bodyPart: e.body_part || '',
+        nameZh: (ZHMAP && ZHMAP[e.id]) || e.name || '',
+        bodyPart: e.bodyPart || e.body_part || '',
         equipment: e.equipment || '',
         target: e.target || '',
-        secondaryMuscles: e.secondary_muscles || [],
-        gif: BASE + (e.gif_url || ''),
-        image: BASE + (e.image || ''),
+        secondaryMuscles: e.secondaryMuscles || e.secondary_muscles || [],
+        gif: e.gif || (e.gif_url ? BASE + e.gif_url : ''),
+        image: e.image || (e.image ? BASE + e.image : ''),
         attribution: e.attribution || '',
         instructionsZh: instr
       };
@@ -105,7 +119,7 @@ function main() {
     '// AUTO-GENERATED from hasaneyldrm/exercises-dataset (exercises.json)\n' +
     '// 数据来源: https://github.com/hasaneyldrm/exercises-dataset  (代码/数据 MIT, 媒体 © Gym visual)\n' +
     '// 说明: 仅保留中文(zh)说明以控制包体积; 动作要领由 instructions 按标点切分; 媒体经 jsDelivr CDN 远程加载。\n' +
-    '// 重新生成: node dataset-ref/build.js\n\n';
+    '// 重新生成: node dataset-ref/build.js  （中文名经 name-zh.json 注入，支持中英双语搜索）\n\n';
 
   const body =
     'module.exports = (function () {\n' +
@@ -132,6 +146,7 @@ function main() {
     '      targetLabel: label("target", ex.target),\n' +
     '      secondaryMusclesLabel: (ex.secondaryMuscles || []).map(function (m) { return label("target", m); }),\n' +
     '      initial: (ex.name || "?").charAt(0),\n' +
+    '      nameZh: ex.nameZh || ex.name || "",\n' +
     '      steps: splitSteps(ex.instructionsZh)\n' +
     '    });\n' +
     '  }\n' +
@@ -142,7 +157,7 @@ function main() {
     '      if (opts.bodyPart && ex.bodyPart !== opts.bodyPart) return false;\n' +
     '      if (opts.equipment && ex.equipment !== opts.equipment) return false;\n' +
     '      if (opts.target && ex.target !== opts.target) return false;\n' +
-    '      if (kw && (ex.name || "").toLowerCase().indexOf(kw) === -1) return false;\n' +
+    '      if (kw && (ex.name || "").toLowerCase().indexOf(kw) === -1 && (ex.nameZh || "").toLowerCase().indexOf(kw) === -1) return false;\n' +
     '      return true;\n' +
     '    }).map(decorate);\n' +
     '  }\n' +
@@ -157,7 +172,8 @@ function main() {
     '      bodyPartLabel: label("bodyPart", ex.bodyPart),\n' +
     '      equipmentLabel: label("equipment", ex.equipment),\n' +
     '      targetLabel: label("target", ex.target),\n' +
-    '      initial: (ex.name || "?").charAt(0)\n' +
+    '      initial: (ex.name || "?").charAt(0),\n' +
+    '      nameZh: ex.nameZh || ex.name || "",\n' +
     '    };\n' +
     '  }\n' +
     '  function filterList(opts) {\n' +
@@ -167,7 +183,7 @@ function main() {
     '      if (opts.bodyPart && ex.bodyPart !== opts.bodyPart) return false;\n' +
     '      if (opts.equipment && ex.equipment !== opts.equipment) return false;\n' +
     '      if (opts.target && ex.target !== opts.target) return false;\n' +
-    '      if (kw && (ex.name || "").toLowerCase().indexOf(kw) === -1) return false;\n' +
+    '      if (kw && (ex.name || "").toLowerCase().indexOf(kw) === -1 && (ex.nameZh || "").toLowerCase().indexOf(kw) === -1) return false;\n' +
     '      return true;\n' +
     '    }).map(listItem);\n' +
     '  }\n' +

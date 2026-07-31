@@ -43,7 +43,7 @@
       />
       <view wx:else class="ex-thumb ph-box">{{item.initial}}</view>
       <view class="ex-info">
-        <view class="ex-name">{{item.name}}</view>
+        <view class="ex-name">{{item.nameZh || item.name}}</view>
         <view class="ex-meta">{{item.bodyPartLabel}} · {{item.targetLabel}}</view>
       </view>
       <view class="ex-go ico ico-chevron"></view>

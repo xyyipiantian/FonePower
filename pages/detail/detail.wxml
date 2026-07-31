@@ -18,7 +18,7 @@
 
   <!-- 标题与标签 -->
   <view class="head">
-    <view class="name">{{ex.name}}</view>
+    <view class="name">{{ex.nameZh || ex.name}}</view>
     <view class="tags">
       <text class="tag primary">{{ex.bodyPartLabel}}</text>
       <text class="tag">{{ex.equipmentLabel}}</text>
