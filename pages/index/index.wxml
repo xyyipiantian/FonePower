@@ -21,6 +21,18 @@
     <view wx:if="{{keyword}}" class="search-clear" bindtap="clearKeyword"><view class="sc-x ico ico-close"></view></view>
   </view>
 
+  <!-- 营养模块入口 -->
+  <view class="nutri-entry" bindtap="onGoNutrition">
+    <view class="nutri-entry-left">
+      <text class="nutri-ico">🥗</text>
+      <view class="nutri-text">
+        <view class="nutri-title">营养食材查询</view>
+        <view class="nutri-sub">1000+ 常见食材 · 热量与营养</view>
+      </view>
+    </view>
+    <text class="nutri-arrow">›</text>
+  </view>
+
   <!-- 筛选维度切换 -->
   <view class="dim-tabs">
     <view
