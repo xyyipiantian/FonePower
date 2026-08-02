@@ -49,6 +49,7 @@
   ],
   "style": "v2",
   "sitemapLocation": "sitemap.json",
+  "__usePrivacyCheck__": true,
   "usingComponents": {
     "fav-guide": "/components/fav-guide/fav-guide"
   }
