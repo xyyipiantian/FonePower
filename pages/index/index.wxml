@@ -1,9 +1,8 @@
 <!-- 健身动作库：搜索 + 分类筛选 + 列表浏览 -->
 <view class="page">
 
-  <!-- 顶部标题 -->
+  <!-- 顶部统计 -->
   <view class="hero-head">
-    <view class="hero-title">健身动作库</view>
     <view class="hero-sub">共 {{libraryTotal}} 个动作 · 按部位 / 器械 / 目标筛选</view>
   </view>
 

@@ -7,26 +7,10 @@
   min-height: 100vh;
 }
 
-/* ---------- 顶部标题 Hero ---------- */
+/* ---------- 顶部统计 ---------- */
 .hero-head {
   position: relative;
   padding: 36rpx 8rpx 18rpx;
-}
-.hero-head::before {
-  content: '';
-  position: absolute;
-  left: 8rpx;
-  top: 14rpx;
-  width: 64rpx;
-  height: 8rpx;
-  border-radius: 8rpx;
-  background: var(--ff-grad-primary);
-}
-.hero-title {
-  font-size: var(--ff-fs-3xl);
-  font-weight: 800;
-  color: var(--ff-ink-900);
-  letter-spacing: 1rpx;
 }
 .hero-sub {
   margin-top: 10rpx;
