@@ -1,0 +1,61 @@
+<!-- 营养食材详情（分包页） -->
+<view class="page" wx:if="{{item}}">
+
+  <!-- 头部 -->
+  <view class="head">
+    <view class="name">{{item.name}}</view>
+    <view class="brand" wx:if="{{item.brand}}">{{item.brand}}</view>
+    <view class="tags">
+      <text class="tag tag-vegan" wx:if="{{item.isVegan}}">🌱 纯素</text>
+      <text class="tag tag-veg" wx:elif="{{item.isVegetarian}}">🥬 素食</text>
+    </view>
+  </view>
+
+  <!-- 热量主卡 -->
+  <view class="kcal-card">
+    <view class="kcal-label">热量（每 100g）</view>
+    <view class="kcal-big">{{item.energy}}<text class="kcal-big-unit"> kcal</text></view>
+  </view>
+
+  <!-- 营养网格 -->
+  <view class="grid">
+    <view class="cell">
+      <view class="cell-num">{{item.protein}}<text class="cell-unit">g</text></view>
+      <view class="cell-label">蛋白质</view>
+    </view>
+    <view class="cell">
+      <view class="cell-num">{{item.carbs}}<text class="cell-unit">g</text></view>
+      <view class="cell-label">碳水化合物</view>
+    </view>
+    <view class="cell">
+      <view class="cell-num">{{item.fat}}<text class="cell-unit">g</text></view>
+      <view class="cell-label">脂肪</view>
+    </view>
+    <view class="cell">
+      <view class="cell-num">{{item.fiber}}<text class="cell-unit">g</text></view>
+      <view class="cell-label">膳食纤维</view>
+    </view>
+    <view class="cell">
+      <view class="cell-num">{{item.sodium}}<text class="cell-unit">mg</text></view>
+      <view class="cell-label">钠</view>
+    </view>
+    <view class="cell">
+      <view class="cell-num">{{item.energy}}<text class="cell-unit">kcal</text></view>
+      <view class="cell-label">热量</view>
+    </view>
+  </view>
+
+  <!-- ODbL 数据源署名 -->
+  <view class="attribution">
+    数据来源：wger / Open Food Facts
+    <view class="attr-sub">基于 Open Database License (ODbL) 开放共享</view>
+  </view>
+
+  <view class="safe-bottom"></view>
+</view>
+
+<view wx:else class="page">
+  <view class="empty">
+    <view class="empty-text">未找到该食材</view>
+  </view>
+</view>

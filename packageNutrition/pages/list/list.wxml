@@ -1,0 +1,71 @@
+<!-- 营养食材库：搜索 + 列表浏览（分包入口页） -->
+<view class="page">
+
+  <!-- 顶部标题 -->
+  <view class="hero">
+    <view class="hero-title">营养食材库</view>
+    <view class="hero-sub">约 1000 种常见食材 · 每 100g 营养参考</view>
+  </view>
+
+  <!-- 搜索框 -->
+  <view class="search-bar">
+    <text class="search-ico">🔍</text>
+    <input
+      class="search-input"
+      placeholder="搜索食材，如 鸡蛋 / 米饭 / 牛奶"
+      placeholder-class="search-ph"
+      value="{{keyword}}"
+      confirm-type="search"
+      bindinput="onSearch"
+    />
+    <view wx:if="{{keyword}}" class="search-clear" bindtap="clearKeyword">✕</view>
+  </view>
+
+  <!-- 结果计数 -->
+  <view class="count-row">
+    <text class="count-num">{{total}}</text>
+    <text class="count-label">种食材</text>
+  </view>
+
+  <!-- 食材列表 -->
+  <view class="list" wx:if="{{list.length > 0}}">
+    <view
+      class="row"
+      wx:for="{{list}}"
+      wx:key="id"
+      bindtap="goDetail"
+      data-id="{{item.id}}"
+    >
+      <view class="row-main">
+        <view class="row-name">{{item.name}}</view>
+        <view class="row-sub" wx:if="{{item.brand}}">{{item.brand}}</view>
+      </view>
+      <view class="row-right">
+        <view class="row-kcal">
+          <text class="kcal-num">{{item.energy}}</text>
+          <text class="kcal-unit">kcal</text>
+        </view>
+        <view class="row-macros">
+          <text class="macro">蛋 {{item.protein}}</text>
+          <text class="macro">碳 {{item.carbs}}</text>
+          <text class="macro">脂 {{item.fat}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:else class="empty">
+    <view class="empty-text">没有找到匹配的食材</view>
+    <view class="empty-sub">换个关键词试试</view>
+  </view>
+
+  <view wx:if="{{hasMore}}" class="load-more">上拉加载更多…</view>
+
+  <view class="safe-bottom"></view>
+
+  <!-- ODbL 数据源署名 -->
+  <view class="attribution">
+    数据来源：wger / Open Food Facts（ODbL 开源协议）
+  </view>
+</view>

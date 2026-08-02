@@ -113,6 +113,11 @@ Page({
     wx.navigateTo({ url: `/pages/detail/detail?id=${id}` });
   },
 
+  // 进入营养食材分包（二级入口）
+  onGoNutrition() {
+    wx.navigateTo({ url: '/packageNutrition/pages/list/list' });
+  },
+
   // 转发给好友：以动作库首页为入口，携带收录总量
   onShareAppMessage() {
     const total = this.data.libraryTotal || (exercises.EXERCISES && exercises.EXERCISES.length) || 0;
