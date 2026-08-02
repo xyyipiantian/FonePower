@@ -2,12 +2,6 @@
 
 基于开源健身数据集的可视化动作库微信小程序。提供动作 GIF 动态图解、按部位/器械/目标肌群检索、训练计划与收藏功能，帮助用户学习标准动作、科学规划日常训练。
 
-> AppID：见微信公众平台后台配置（请勿随仓库公开提交）
-> 微信后台名称：**FitFlow 健身动作库**
-> 建议服务类目：**体育 > 在线健身**（当前后台曾误设为「工具 > 备忘录」，上架前需修正）
-
----
-
 ## 功能特性
 
 | 模块 | 说明 |
@@ -16,18 +10,17 @@
 | **动作详情** | 动作 GIF 动态图解 + 静态图、标准要领分步说明、部位/器械/目标肌群标签、一键收藏。 |
 | **训练计划** | 预设训练计划列表与计划详情（组合多个动作）。 |
 | **我的收藏** | 收藏的动作集中查看，本地持久化。 |
+| **营养食材** | 内置 1000+ 条常见食材营养数据（能量 / 蛋白质 / 碳水 / 脂肪 / 膳食纤维 / 钠），支持搜索与详情查看，独立分包 `packageNutrition`。 |
 | **个人中心** | 用户信息、收藏数等入口。 |
-| **自定义 TabBar** | 动作库 / 训练计划 / 收藏 / 我的，激活态高对比青色胶囊指示。 |
-
----
+| **自定义 TabBar** | 动作库 / 训练计划 / 收藏 / 营养 / 我的，激活态高对比青色胶囊指示。 |
 
 ## 技术架构
 
 - **平台**：微信小程序（原生开发，非 uni-app / Taro）。
 - **UI 方案**：WXML + WXSS，设计变量集中于 `styles/tokens.wxss`，图标为 `styles/icons.wxss` 内联 SVG（CSS `background-image`），无第三方 UI 库。
-- **数据加载**：构建时静态打包（见下方「数据来源」），运行时从 `utils/exercises.js` 内存数组直接读取，无远程 API 调用。
+- **数据加载**：构建时静态打包，运行时从 `utils/exercises.js` 内存数组直接读取，无远程 API 调用。
 - **媒体资源**：动作 GIF / 图片按 URL 从 [jsDelivr CDN](https://cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset@main/) 实时加载（需在小程序后台配置 `downloadFile` 合法域名）。
-- **云环境**：已开通 CloudBase 环境（环境 ID 见微信云开发控制台），**当前未接入代码**（收藏等功能仍走本地 Storage）。
+- **云环境**：已开通 CloudBase 环境，当前未接入业务代码（收藏等功能仍走本地 Storage）。
 
 ### 目录结构
 
@@ -42,6 +35,7 @@ FitFlow/
 │   ├── plan-detail/                 计划详情
 │   ├── favorites/                   我的收藏
 │   └── profile/                    个人中心
+├── packageNutrition/                营养食材分包（列表 + 详情）
 ├── styles/
 │   ├── tokens.wxss                 设计变量（颜色 / 阴影 / 圆角 / 动画时长）
 │   └── icons.wxss                  矢量图标库（内联 SVG）
@@ -55,16 +49,14 @@ FitFlow/
 └── sitemap.json
 ```
 
----
-
 ## 数据来源与构建
 
-动作数据来源于开源项目 [hasaneyldrm/exercises-dataset](https://github.com/hasaneyldrm/exercises-dataset)（代码与数据 MIT，媒体资源 © GymVisual）。
+动作数据来源于开源项目 [hasaneyldrm/exercises-dataset](https://github.com/hasaneyldrm/exercises-dataset)（代码与数据 MIT，媒体资源 © GymVisual）。营养食材数据来源于公开营养数据库。
 
 本地仓库已包含完整数据集与构建产物，克隆即可运行：
 
 ```bash
-# 如需重新生成数据模块（数据集更新后）
+# 如需重新生成动作数据模块（数据集更新后）
 node dataset-ref/build.js
 # 输出: utils/exercises.js  (含 EXERCISES / OPTIONS / getById / filter 等方法)
 ```
@@ -77,39 +69,38 @@ node dataset-ref/build.js
 
 > **重要限制**：数据集是「构建时快照」。上游仓库新增动作**不会**自动反映到线上小程序，必须重新运行 `build.js` 并重新发布。
 
----
+## 隐私合规
+
+本项目遵循微信《用户隐私保护指引》：
+- 复制外链使用剪切板接口；
+- 计算引导提示位置使用窗口信息接口；
+- 切换 TabBar 使用振动接口。
+上述接口的采集目的已在小程序后台声明。具体声明内容请在微信公众平台「用户隐私保护指引」中查看。
 
 ## 本地开发
 
 1. 用**微信开发者工具**导入本项目目录。
-2. 填入你的 AppID（或测试号）。
+2. 在 `project.config.json` 中填入你的 AppID（或使用测试号），**仓库不包含具体 AppID**。
 3. 在「详情 → 本地设置」中确认已开启「不校验合法域名」（或已配置 jsDelivr CDN 为合法域名）。
 4. 编译预览。`project.config.json` 已开启 `bigPackageSizeSupport`（数据集较大）。
-
----
 
 ## 数据存储现状
 
 | 数据 | 存储位置 | 说明 |
 | --- | --- | --- |
 | 动作主数据 | `utils/exercises.js`（代码包内） | 静态快照，更新需重新构建 + 发版。 |
-| 收藏数据 | 用户手机**本地 Storage**（键 `ff_favorites`，存动作 ID 数组） | 换机 / 清缓存 / 卸载会丢失，多设备不互通。 |
+| 收藏数据 | 用户手机**本地 Storage** | 换机 / 清缓存 / 卸载会丢失，多设备不互通。 |
 | CloudBase 云库 | 环境已开，未接入 | 后续可迁移收藏、计划、训练记录以实现跨设备持久化。 |
 
----
-
-## Roadmap（建议）
+## Roadmap
 
 - [ ] 接入 CloudBase：收藏 / 计划迁移至云数据库，支持跨设备与多用户。
 - [ ] 动作库改为云库运行时拉取，解决「数据集不自动更新」问题。
-- [ ] 动作名中文化（`exercises.js` 的 `name` 字段目前为英文，需逐条翻译或使用翻译 API）。
-- [ ] 后台服务类目修正为「体育 > 在线健身」。
 - [ ] 训练记录 / 打卡等进阶功能。
-
----
 
 ## 许可证
 
 - 代码：MIT
-- 数据：MIT（[hasaneyldrm/exercises-dataset](https://github.com/hasaneyldrm/exercises-dataset)）
+- 动作数据：MIT（[hasaneyldrm/exercises-dataset](https://github.com/hasaneyldrm/exercises-dataset)）
 - 媒体（GIF / 图片）：© GymVisual，遵循原仓库授权说明
+- 营养数据：来自公开营养数据库（如 wger、Open Food Facts），遵循其对应授权
