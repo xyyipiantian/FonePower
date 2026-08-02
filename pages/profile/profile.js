@@ -60,7 +60,8 @@ Page({
   openRepo() {
     wx.setClipboardData({
       data: 'https://github.com/hasaneyldrm/exercises-dataset',
-      success: () => wx.showToast({ title: '仓库链接已复制', icon: 'none' })
+      success: () => wx.showToast({ title: '仓库链接已复制', icon: 'none' }),
+      fail: () => wx.showToast({ title: '请先同意隐私协议后再复制', icon: 'none' })
     });
   },
 
@@ -68,7 +69,8 @@ Page({
   openGymvisual() {
     wx.setClipboardData({
       data: 'https://gymvisual.com/',
-      success: () => wx.showToast({ title: '版权方链接已复制', icon: 'none' })
+      success: () => wx.showToast({ title: '版权方链接已复制', icon: 'none' }),
+      fail: () => wx.showToast({ title: '请先同意隐私协议后再复制', icon: 'none' })
     });
   }
 });

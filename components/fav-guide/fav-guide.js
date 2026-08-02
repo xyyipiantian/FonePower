@@ -28,11 +28,15 @@ Component({
 
       if (mode === 'bar') {
         // 计算指向右上角胶囊菜单（···）的箭头水平位置
+        // 使用 getWindowInfo() 替代 getSystemInfoSync() —— 前者仅返回窗口尺寸，
+        // 不在微信隐私接口清单内；后者属于隐私接口（已启用 __usePrivacyCheck__）。
         try {
           const rect = wx.getMenuButtonBoundingClientRect();
-          const sys = wx.getSystemInfoSync();
-          const rpxRatio = 750 / sys.windowWidth;
-          const rightPx = sys.windowWidth - rect.right;
+          const win = wx.canIUse('getWindowInfo')
+            ? wx.getWindowInfo()
+            : wx.getSystemInfoSync();
+          const rpxRatio = 750 / win.windowWidth;
+          const rightPx = win.windowWidth - rect.right;
           const rightRpx = Math.round(rightPx * rpxRatio);
           d.arrowStyle = 'right:' + rightRpx + 'rpx;';
         } catch (e) {}

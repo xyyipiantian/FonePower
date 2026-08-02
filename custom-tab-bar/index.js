@@ -19,7 +19,12 @@ Component({
       const url = this.data.list[idx].pagePath;
       // 轻触感反馈，提升交互质感
       if (wx.canIUse('vibrateShort')) {
-        wx.vibrateShort({ type: 'light' }).catch(() => {});
+        wx.vibrateShort({ type: 'light' }).catch((err) => {
+          // 仅在「隐私拒绝」时提示；设备不支持振动属正常情况，保持静默
+          if (err && /privacy/i.test(err.errMsg || '')) {
+            wx.showToast({ title: '请先同意隐私协议', icon: 'none' });
+          }
+        });
       }
       wx.switchTab({ url });
     }
