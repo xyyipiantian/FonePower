@@ -31,19 +31,11 @@
     <view class="sec-title">关于数据</view>
     <view class="about-text">
       本应用动作数据来源于开源数据集
-      <text class="link">exercises-dataset</text>，涵盖
+      <text class="link" bindtap="openRepo">exercises-dataset</text>，涵盖
       {{total}} 个训练动作，支持按身体部位、训练器械与目标肌群多维度检索。
     </view>
-    <view class="attr">演示媒体版权归属原作者，仅作学习展示之用。</view>
-  </view>
-
-  <!-- 设计系统说明 -->
-  <view class="section">
-    <view class="sec-title">界面设计</view>
-    <view class="about-text">
-      全站基于统一设计系统构建：青绿活力主色（Vitality Emerald）+
-      能量橙强调色（Energy Orange），4rpx 间距基准、四级阴影海拔与
-      品牌渐变，确保跨页面视觉一致与无障碍可读。
+    <view class="attr">演示媒体版权归属
+      <text class="link" bindtap="openGymvisual">Gym visual</text>，仅作学习展示之用。
     </view>
   </view>
 

@@ -54,5 +54,21 @@ Page({
   // 原生菜单「收藏」：定制收藏卡片标题
   onAddToFavorites() {
     return { title: 'FitFlow 健身动作库 · 科学训练指南' };
+  },
+
+  // 打开数据源仓库
+  openRepo() {
+    wx.setClipboardData({
+      data: 'https://github.com/hasaneyldrm/exercises-dataset',
+      success: () => wx.showToast({ title: '仓库链接已复制', icon: 'none' })
+    });
+  },
+
+  // 打开媒体版权方
+  openGymvisual() {
+    wx.setClipboardData({
+      data: 'https://gymvisual.com/',
+      success: () => wx.showToast({ title: '版权方链接已复制', icon: 'none' })
+    });
   }
 });
