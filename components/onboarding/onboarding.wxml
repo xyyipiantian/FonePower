@@ -1,0 +1,39 @@
+<view wx:if="{{visible}}" class="ob-mask" catchtap="noop">
+  <view class="ob-card" catchtap="noop" style="background: linear-gradient(160deg, #FFFFFF 0%, #FAFAFA 100%); border-top: 8rpx solid {{steps[step].bg}};">
+
+    <!-- 跳过 -->
+    <view class="ob-skip" bindtap="skip">跳过</view>
+
+    <!-- 步骤指示 -->
+    <view class="ob-dots">
+      <view
+        wx:for="{{steps}}"
+        wx:key="key"
+        class="ob-dot {{index === step ? 'on' : ''}}"
+        style="background: {{index === step ? steps[step].bg : '#E2E8F0'}};"
+      ></view>
+    </view>
+
+    <!-- 图标 + 标题 -->
+    <view class="ob-icon-wrap" style="background: {{steps[step].bg}}1A;">
+      <text class="ob-icon">{{steps[step].icon}}</text>
+    </view>
+    <view class="ob-title">{{steps[step].title}}</view>
+    <view class="ob-body">{{steps[step].body}}</view>
+
+    <!-- 操作按钮 -->
+    <view class="ob-actions">
+      <view
+        wx:if="{{step > 0}}"
+        class="ob-btn ob-btn-ghost"
+        bindtap="prev"
+      >上一步</view>
+      <view
+        class="ob-btn ob-btn-primary"
+        style="background: {{steps[step].bg}};"
+        bindtap="next"
+      >{{isLast ? '开始使用 →' : '下一步'}}</view>
+    </view>
+
+  </view>
+</view>

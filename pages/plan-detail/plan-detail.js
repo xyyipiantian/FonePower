@@ -59,7 +59,9 @@ Page({
       });
       this.setData({
         plan, days, schedule: plan.schedule || null,
-        envHint: plan.envHint || null, env
+        envHint: plan.envHint || null, env,
+        isExternal: !!plan.isExternal,
+        externalRef: plan.externalRef || null
       });
       return;
     }
@@ -228,6 +230,23 @@ Page({
     setTimeout(() => {
       wx.navigateTo({ url: `/pages/custom-plan/custom-plan?id=${newPlan.id}` });
     }, 600);
+  },
+
+  // 外部推荐课程跳转：复制 URL 到剪贴板 + 提示（个人主体小程序不支持外链直跳）
+  goExternal() {
+    const ref = this.data.externalRef;
+    if (!ref || !ref.url) return;
+    wx.setClipboardData({
+      data: ref.url,
+      success: () => {
+        wx.showModal({
+          title: '已复制到剪贴板',
+          content: '链接已复制。打开微信扫一扫/浏览器粘贴即可进入「' + ref.author + '」官方平台。',
+          showCancel: false,
+          confirmText: '我知道了'
+        });
+      }
+    });
   },
 
   startTrain() {

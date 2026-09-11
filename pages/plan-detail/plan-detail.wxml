@@ -19,6 +19,22 @@
     </view>
   </view>
 
+  <!-- 外部推荐课程 banner（谭成义焚诀等） -->
+  <view class="ext-card ff-card" wx:if="{{isExternal}}">
+    <view class="ext-head">
+      <view class="ext-badge">推荐课程</view>
+      <view class="ext-author">{{externalRef.author}}</view>
+    </view>
+    <view class="ext-course">{{externalRef.course}}</view>
+    <view class="ext-note">{{externalRef.note}}</view>
+    <view class="ext-actions">
+      <view wx:if="{{externalRef.url}}" class="ext-go" bindtap="goExternal">
+        <view class="ext-go-ico ico ico-external"></view>前往 {{externalRef.platform}}
+      </view>
+      <view wx:else class="ext-hint">作者入口待补（在 utils/plans.js → externalRef.url 填写）</view>
+    </view>
+  </view>
+
   <!-- 排程卡（仅结构化计划显示） -->
   <view class="sched-card ff-card" wx:if="{{schedule}}">
     <view class="sched-head">
@@ -68,12 +84,12 @@
     </view>
   </view>
 
-  <view class="start-btn" bindtap="startTrain">
+  <view class="start-btn" wx:if="{{!isExternal}}" bindtap="startTrain">
     <view class="sb-ico ico ico-play"></view>开始训练
   </view>
 
   <!-- 公开计划：允许复制到自己计划库 -->
-  <view class="copy-btn" wx:if="{{plan.isPublic}}" bindtap="copyPlan">
+  <view class="copy-btn" wx:if="{{plan.isPublic && !isExternal}}" bindtap="copyPlan">
     <view class="cb-ico ico ico-plus"></view>使用此计划（添加到我的训练）
   </view>
 

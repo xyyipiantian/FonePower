@@ -578,3 +578,79 @@
   font-weight: 600;
   color: var(--ff-ink-700);
 }
+
+/* =====================================================================
+   外部推荐课程卡 (External Course Card · 谭成义焚诀等)
+   ===================================================================== */
+.ext-card {
+  margin-top: 18rpx;
+  padding: 22rpx 24rpx;
+  background: linear-gradient(135deg, #FFF7ED 0%, #FED7AA 100%);
+  border: 1rpx solid #FB923C;
+  box-shadow: 0 4rpx 12rpx rgba(251, 146, 60, 0.12);
+}
+.ext-head {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 12rpx;
+}
+.ext-badge {
+  font-size: var(--ff-fs-xs);
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #F97316 0%, #FB923C 100%);
+  padding: 4rpx 14rpx;
+  border-radius: var(--ff-r-full);
+  letter-spacing: 1rpx;
+}
+.ext-author {
+  font-size: var(--ff-fs-base);
+  font-weight: 700;
+  color: #9A3412;
+}
+.ext-course {
+  font-size: var(--ff-fs-xl, 32rpx);
+  font-weight: 800;
+  color: #7C2D12;
+  margin-bottom: 10rpx;
+}
+.ext-note {
+  font-size: var(--ff-fs-xs);
+  color: #9A3412;
+  line-height: 1.7;
+  margin-bottom: 18rpx;
+}
+.ext-actions {
+  display: flex;
+  align-items: center;
+}
+.ext-go {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  height: 72rpx;
+  padding: 0 24rpx;
+  background: linear-gradient(135deg, #F97316 0%, #FB923C 100%);
+  color: #fff;
+  border-radius: var(--ff-r-full);
+  font-size: var(--ff-fs-base);
+  font-weight: 700;
+  box-shadow: 0 4rpx 10rpx rgba(249, 115, 22, 0.3);
+}
+.ext-go:active {
+  transform: translateY(1rpx);
+  box-shadow: 0 2rpx 6rpx rgba(249, 115, 22, 0.3);
+}
+.ext-go-ico {
+  width: 28rpx;
+  height: 28rpx;
+  filter: brightness(0) invert(1);
+}
+.ext-hint {
+  font-size: var(--ff-fs-xs);
+  color: #C2410C;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 8rpx 14rpx;
+  border-radius: var(--ff-r-sm);
+}

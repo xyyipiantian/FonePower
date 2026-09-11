@@ -99,3 +99,8 @@
 .ico-fire {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF7A45'%3E%3Cpath d='M13,2c0.5,3-1.5,4.5-2.5,6.5C9.3,10.6,10,12.5,12,12.5c-0.3-1.3,0-2.3,0-2.3c2.2,1.2,3.3,3.4,3.3,5.6a5.3,5.3,0,0,1-10.6,0c0-3.2,2.1-5.3,3.4-7.4C9.2,6.8,11.5,4.8,13,2z'/%3E%3C/svg%3E");
 }
+
+/* ---- 外链跳转（推荐课程卡） ---- */
+.ico-external {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FFFFFF' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14,4h6v6'/%3E%3Cpath d='M10,14L20,4'/%3E%3Cpath d='M20,14v5a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V5a1,1,0,0,1,1-1h5'/%3E%3C/svg%3E");
+}

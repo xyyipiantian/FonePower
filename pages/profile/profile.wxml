@@ -38,6 +38,14 @@
         </view>
         <view class="mi-go ico ico-chevron"></view>
       </view>
+      <view class="menu-item ff-card ff-press" bindtap="restartOnboarding">
+        <view class="mi-ico ico ico-info"></view>
+        <view class="mi-body">
+          <view class="mi-name">新手引导</view>
+          <view class="mi-desc">再看一次 4 步快速上手</view>
+        </view>
+        <view class="mi-go ico ico-chevron"></view>
+      </view>
     </view>
   </view>
 

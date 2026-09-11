@@ -34,6 +34,15 @@ Page({
       // P2 兜底：高活跃但从未引导过的用户
       favGuide.tryGuide(comp, { text: '常来练？把 FitFlow 放进「我的小程序」，下拉就能打开。' });
     }
+
+    // 新手引导（首次进入自动启动，跳过/完成后不再触发）
+    if (!this._onboardingTried) {
+      this._onboardingTried = true;
+      setTimeout(() => {
+        const ob = this.selectComponent('#onboarding');
+        if (ob && ob.show) ob.show();
+      }, 1500);
+    }
   },
 
   // 切换筛选维度（身体部位 / 器械 / 目标肌群）

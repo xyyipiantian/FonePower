@@ -1,0 +1,119 @@
+/* =====================================================================
+   新手引导 (Onboarding Coach Mark)
+   ===================================================================== */
+.ob-mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60rpx 48rpx;
+}
+
+.ob-card {
+  position: relative;
+  width: 100%;
+  max-width: 640rpx;
+  border-radius: 32rpx;
+  padding: 48rpx 40rpx 40rpx;
+  box-shadow: 0 20rpx 60rpx rgba(15, 23, 42, 0.25);
+  animation: ob-rise 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes ob-rise {
+  from { opacity: 0; transform: translateY(40rpx) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.ob-skip {
+  position: absolute;
+  top: 20rpx;
+  right: 28rpx;
+  font-size: 26rpx;
+  color: #94A3B8;
+  padding: 8rpx 16rpx;
+  font-weight: 500;
+}
+.ob-skip:active { color: #475569; }
+
+.ob-dots {
+  display: flex;
+  justify-content: center;
+  gap: 12rpx;
+  margin-bottom: 28rpx;
+}
+.ob-dot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  transition: all 0.25s ease;
+}
+.ob-dot.on { width: 32rpx; border-radius: 6rpx; }
+
+.ob-icon-wrap {
+  width: 128rpx;
+  height: 128rpx;
+  margin: 0 auto 24rpx;
+  border-radius: 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ob-icon {
+  font-size: 72rpx;
+  line-height: 1;
+}
+
+.ob-title {
+  text-align: center;
+  font-size: 40rpx;
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 18rpx;
+  letter-spacing: 1rpx;
+}
+
+.ob-body {
+  text-align: left;
+  font-size: 28rpx;
+  line-height: 1.7;
+  color: #475569;
+  white-space: pre-line;
+  margin-bottom: 36rpx;
+  min-height: 200rpx;
+}
+
+.ob-actions {
+  display: flex;
+  gap: 16rpx;
+}
+
+.ob-btn {
+  flex: 1;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16rpx;
+  font-size: 30rpx;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.ob-btn-primary {
+  color: #FFFFFF;
+  box-shadow: 0 6rpx 16rpx rgba(0, 0, 0, 0.12);
+}
+.ob-btn-primary:active {
+  transform: translateY(2rpx);
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.12);
+}
+
+.ob-btn-ghost {
+  flex: 0 0 30%;
+  color: #475569;
+  background: #F1F5F9;
+}
+.ob-btn-ghost:active { background: #E2E8F0; }

@@ -72,5 +72,14 @@ Page({
 
   goTrainingLog() {
     wx.navigateTo({ url: '/pages/training-log/training-log' });
+  },
+
+  // 重新启动新手引导：清掉本地标记 + 回到首页让 onShow 触发
+  restartOnboarding() {
+    try {
+      wx.removeStorageSync('ff.onboarding.done');
+    } catch (e) {}
+    if (wx.vibrateShort) wx.vibrateShort({ type: 'light' });
+    wx.reLaunch({ url: '/pages/index/index' });
   }
 });
