@@ -104,3 +104,13 @@
 .ico-external {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FFFFFF' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14,4h6v6'/%3E%3Cpath d='M10,14L20,4'/%3E%3Cpath d='M20,14v5a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V5a1,1,0,0,1,1-1h5'/%3E%3C/svg%3E");
 }
+
+/* ---- 眼睛（沉浸模式开关 - 看页） ---- */
+.ico-eye {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230F172A' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2,12s3.5-7,10-7,10,7,10,7-3.5,7-10,7S2,12,2,12z'/%3E%3Ccircle cx='12' cy='12' r='3'/%3E%3C/svg%3E");
+}
+
+/* ---- 眼睛关闭（沉浸模式开关 - 关闭看页） ---- */
+.ico-eye-off {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FFFFFF' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17.94,17.94A10.94,10.94,0,0,1,12,19c-6.5,0-10-7-10-7a18.4,18.4,0,0,1,4.06-5.06'/%3E%3Cpath d='M9.9,4.24A10.94,10.94,0,0,1,12,4c6.5,0,10,7,10,7a18.5,18.5,0,0,1-2.16,3.19'/%3E%3Cpath d='M14.12,14.12a3,3,0,0,1-4.24-4.24'/%3E%3Cline x1='2' y1='2' x2='22' y2='22'/%3E%3C/svg%3E");
+}

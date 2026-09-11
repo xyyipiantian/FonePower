@@ -1,18 +1,21 @@
 <!-- FitFlow · 训练页面 -->
-<view class="page" wx:if="{{!done}}">
-  <!-- 顶部进度条 -->
-  <view class="top-bar">
-    <view class="top-back" bindtap="cancelTraining">×</view>
-    <view class="top-title">{{plan.name}} · {{dayName}}</view>
+<view class="page {{immersive ? 'immersive' : ''}}" wx:if="{{!done}}">
+  <!-- 顶部进度条（沉浸态下简化为更隐蔽） -->
+  <view class="top-bar {{immersive ? 'top-bar-im' : ''}}">
+    <view class="top-back" bindtap="cancelTraining">✕</view>
+    <view class="top-title">{{plan.name}}{{dayName ? ' · ' + dayName : ''}}</view>
     <view class="top-progress">{{itemIndex + 1}}/{{items.length}}</view>
+    <view class="top-toggle" bindtap="toggleImmersive">
+      <view class="tt-ico ico {{immersive ? 'ico-eye-off' : 'ico-eye'}}"></view>
+    </view>
   </view>
 
-  <view class="progress-bar">
+  <view class="progress-bar" wx:if="{{!immersive}}">
     <view class="progress-fill" style="width: {{(itemIndex / items.length) * 100}}%"></view>
   </view>
 
-  <!-- 当前动作卡 -->
-  <view class="current-card ff-card" wx:if="{{currentItem}}">
+  <!-- 当前动作卡（沉浸态下隐藏缩略图） -->
+  <view class="current-card ff-card {{immersive ? 'current-card-im' : ''}}" wx:if="{{currentItem}}">
     <view class="current-no">{{itemIndex + 1}}</view>
     <view class="current-body">
       <view class="current-name">{{currentItem.name}}</view>
@@ -21,31 +24,31 @@
         <text class="meta-pill amber">×{{currentItem.reps}}</text>
         <text class="meta-pill red">RPE {{currentItem.rpe}}</text>
       </view>
-      <view class="current-rest">组间休息 {{currentItem.rest}} 秒</view>
+      <view class="current-rest" wx:if="{{!immersive}}">组间休息 {{currentItem.rest}} 秒</view>
     </view>
     <image
-      wx:if="{{currentItem.image}}"
+      wx:if="{{currentItem.image && !immersive}}"
       class="current-thumb"
       src="{{currentItem.image}}"
       mode="aspectFill"
       lazy-load
       bindtap="goDetail"
     />
-    <view wx:else class="current-thumb ph-box" bindtap="goDetail">?</view>
+    <view wx:elif="{{!immersive}}" class="current-thumb ph-box" bindtap="goDetail">?</view>
   </view>
 
-  <!-- 要点 / 口令 -->
-  <view class="note-card ff-card" wx:if="{{currentItem.note}}">
+  <!-- 要点 / 口令（非沉浸态显示） -->
+  <view class="note-card ff-card" wx:if="{{currentItem.note && !immersive}}">
     <text class="note-label">要点</text>
     <text class="note-text">{{currentItem.note}}</text>
   </view>
-  <view class="cue-card ff-card" wx:if="{{currentItem.cue}}">
+  <view class="cue-card ff-card" wx:if="{{currentItem.cue && !immersive}}">
     <text class="cue-label">口令</text>
     <text class="cue-text">{{currentItem.cue}}</text>
   </view>
 
-  <!-- 组进度 -->
-  <view class="sets-card ff-card">
+  <!-- 组进度（非沉浸态显示） -->
+  <view class="sets-card ff-card" wx:if="{{!immersive}}">
     <view class="sets-title">本动作进度（{{setIndex}}/{{setsTotal}}）</view>
     <view class="sets-list">
       <view
@@ -71,21 +74,24 @@
     </view>
   </view>
 
-  <!-- 操作按钮 -->
-  <view class="action-area">
-    <view class="complete-btn" bindtap="completeSet">
-      <view class="cb-ico ico ico-check"></view>
-      <text wx:if="{{itemIndex + 1 < items.length || setIndex + 1 < setsTotal}}">完成第 {{setIndex + 1}} 组</text>
+  <!-- 操作按钮（沉浸态下大字大按钮） -->
+  <view class="action-area {{immersive ? 'action-area-im' : ''}}">
+    <view class="complete-btn {{immersive ? 'complete-btn-im' : ''}}" bindtap="completeSet">
+      <view class="cb-ico ico ico-check" wx:if="{{!immersive}}"></view>
+      <text wx:if="{{itemIndex + 1 < items.length || setIndex + 1 < setsTotal}}">
+        {{immersive ? '完成第 ' + (setIndex + 1) + ' 组' : '完成第 ' + (setIndex + 1) + ' 组'}}
+      </text>
       <text wx:else>完成训练 🎉</text>
     </view>
+    <view wx:if="{{immersive}}" class="im-hint">沉浸模式 · 已自动锁屏常亮</view>
   </view>
 
-  <!-- 休息倒计时弹层 -->
-  <view class="rest-mask" wx:if="{{showRest}}">
-    <view class="rest-card">
+  <!-- 休息倒计时弹层（沉浸态下加大加红） -->
+  <view class="rest-mask {{restPulse ? 'rest-mask-pulse' : ''}}" wx:if="{{showRest}}">
+    <view class="rest-card {{immersive ? 'rest-card-im' : ''}}">
       <view class="rest-title">休息中</view>
-      <view class="rest-time">{{restSeconds}}s</view>
-      <view class="rest-progress">
+      <view class="rest-time {{restPulse ? 'rest-time-pulse' : ''}}">{{restSeconds}}</view>
+      <view class="rest-progress" wx:if="{{!immersive}}">
         <view class="rest-progress-fill" style="width: {{(restSeconds / restTotal) * 100}}%"></view>
       </view>
       <view class="rest-skip" bindtap="skipRest">跳过休息 →</view>

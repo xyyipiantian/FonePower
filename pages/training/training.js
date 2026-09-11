@@ -23,10 +23,17 @@ Page({
     startedAt: 0,
     done: false,       // 整个训练是否完成
     summary: null,     // 完成总结
-    currentItem: null  // 当前动作（data 字段，WXML 直接访问）
+    currentItem: null, // 当前动作（data 字段，WXML 直接访问）
+    // ===== v1 沉浸模式 =====
+    immersive: true,   // 默认进入沉浸态
+    restPulse: false   // 倒计时最后 3 秒脉冲红（动画触发）
   },
 
   onLoad(query) {
+    // 屏幕常亮（防息屏中断训练）
+    if (wx.setKeepScreenOn) {
+      wx.setKeepScreenOn({ keepScreenOn: true });
+    }
     // query: ?planId=&dayIndex=
     try {
       const raw = wx.getStorageSync('ff.currentTraining');
@@ -72,8 +79,26 @@ Page({
 
   onUnload() {
     if (this._restTimer) clearInterval(this._restTimer);
+    // 关闭屏幕常亮
+    if (wx.setKeepScreenOn) {
+      wx.setKeepScreenOn({ keepScreenOn: false });
+    }
     // 退出时把当前进度落盘
     this._saveProgress();
+  },
+
+  // 拦截系统返回（安卓物理返回 / 顶部胶囊左滑）
+  onBackPress() {
+    if (this.data.done) return false; // 完成页允许返回
+    this.cancelTraining();
+    return true; // 阻止默认返回
+  },
+
+  // 切换沉浸态
+  toggleImmersive() {
+    const next = !this.data.immersive;
+    this.setData({ immersive: next });
+    wx.vibrateShort && wx.vibrateShort({ type: 'light' });
   },
 
   onShow() {
@@ -153,6 +178,9 @@ Page({
     const next = setProgress.slice();
     next[setIndex] = Object.assign({}, next[setIndex], { done: true });
 
+    // 完成一组：触觉确认
+    wx.vibrateShort && wx.vibrateShort({ type: 'medium' });
+
     if (setIndex + 1 < setProgress.length) {
       this.setData({ setProgress: next });
       this._startRest(items[itemIndex].rest || 60, () => {
@@ -181,6 +209,8 @@ Page({
     });
     this._syncCurrent();
     this._saveProgress();
+    // 切动作：重振动提示
+    wx.vibrateShort && wx.vibrateShort({ type: 'heavy' });
     this._startRest(30, () => {
       wx.showToast({ title: '下一个动作：' + (nextItem.name || ''), icon: 'none' });
     });
@@ -192,11 +222,19 @@ Page({
     this.setData({
       showRest: true,
       restSeconds: seconds,
-      restTotal: seconds
+      restTotal: seconds,
+      restPulse: false
     });
     this._restTimer = setInterval(() => {
       const left = this.data.restSeconds - 1;
-      if (left <= 0) {
+      // 最后 3 秒：脉冲 + 振动
+      if (left === 3 || left === 2) {
+        this.setData({ restPulse: true, restSeconds: left });
+        wx.vibrateShort && wx.vibrateShort({ type: 'light' });
+      } else if (left === 1) {
+        this.setData({ restPulse: true, restSeconds: left });
+        wx.vibrateShort && wx.vibrateShort({ type: 'medium' });
+      } else if (left <= 0) {
         this._stopRest(true);
       } else {
         this.setData({ restSeconds: left });
@@ -244,7 +282,12 @@ Page({
     this._clearProgress();
     try { wx.removeStorageSync('ff.currentTraining'); } catch (e) {}
     this.setData({ done: true, summary });
-    wx.vibrateShort && wx.vibrateShort({ type: 'medium' });
+    // 训练完成：长振动庆祝
+    if (wx.vibrateLong) {
+      wx.vibrateLong();
+    } else {
+      wx.vibrateShort && wx.vibrateShort({ type: 'heavy' });
+    }
   },
 
   // 用户主动取消训练
