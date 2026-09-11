@@ -1,10 +1,6 @@
 const exercises = require('../../utils/exercises.js');
 const favGuide = require('../../utils/favGuide.js');
-
-const FAV_KEY = 'ff_favorites';
-function getFavs() {
-  try { return wx.getStorageSync(FAV_KEY) || []; } catch (e) { return []; }
-}
+const cloud = require('../../utils/cloud.js');
 
 Page({
   data: {
@@ -17,7 +13,7 @@ Page({
     this.setData({
       total: exercises.EXERCISES.length,
       bodyPartCount: exercises.getOptions('bodyPart').length,
-      favCount: getFavs().length
+      favCount: cloud.getFavs().length
     });
 
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
@@ -72,5 +68,9 @@ Page({
       success: () => wx.showToast({ title: '版权方链接已复制', icon: 'none' }),
       fail: () => wx.showToast({ title: '请先同意隐私协议后再复制', icon: 'none' })
     });
+  },
+
+  goTrainingLog() {
+    wx.navigateTo({ url: '/pages/training-log/training-log' });
   }
 });

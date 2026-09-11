@@ -4,6 +4,10 @@
     "pages/plans/plans",
     "pages/detail/detail",
     "pages/plan-detail/plan-detail",
+    "pages/plan-editor/plan-editor",
+    "pages/custom-plan/custom-plan",
+    "pages/training/training",
+    "pages/training-log/training-log",
     "pages/favorites/favorites",
     "pages/profile/profile"
   ],

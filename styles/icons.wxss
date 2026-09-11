@@ -85,6 +85,11 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23008663' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6,14l6-6,6,6'/%3E%3C/svg%3E");
 }
 
+/* ---- 下箭头（计划排序） ---- */
+.ico-chevron-down {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FFFFFF' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6,10l6,6,6-6'/%3E%3C/svg%3E");
+}
+
 /* ---- 播放（开始训练） ---- */
 .ico-play {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFFFFF'%3E%3Cpath d='M8,5.5v13l11-6.5z'/%3E%3C/svg%3E");

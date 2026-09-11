@@ -1,13 +1,6 @@
 const exercises = require('../../utils/exercises.js');
 const favGuide = require('../../utils/favGuide.js');
-
-const FAV_KEY = 'ff_favorites';
-function getFavs() {
-  try { return wx.getStorageSync(FAV_KEY) || []; } catch (e) { return []; }
-}
-function setFavs(arr) {
-  wx.setStorageSync(FAV_KEY, arr);
-}
+const cloud = require('../../utils/cloud.js');
 
 Page({
   data: {
@@ -16,11 +9,14 @@ Page({
   },
 
   onLoad(query) {
+    // 调试自检：每次进详情页都打印云环境状态（验证 cloud.js 已加载）
+    const sysInfo = wx.getSystemInfoSync();
+    console.log('[detail.onLoad] cloud.js 已加载 CLOUD_ENV=' + cloud.CLOUD_ENV + ' platform=' + sysInfo.platform + ' isDev=' + (sysInfo.platform === 'devtools'));
     const ex = exercises.getById(query.id);
     if (ex) {
       wx.setNavigationBarTitle({ title: ex.name });
     }
-    this.setData({ ex, fav: getFavs().indexOf(query.id) > -1 });
+    this.setData({ ex, fav: cloud.getFavs().indexOf(query.id) > -1 });
     // P2 浏览计数：每查看一个动作详情 +1
     favGuide.incBrowsedCount();
   },
@@ -33,15 +29,16 @@ Page({
     const ex = this.data.ex;
     if (!ex) return;
     const id = ex.id;
-    const favs = getFavs();
+    const favs = cloud.getFavs();
     const has = favs.indexOf(id) > -1;
     const next = has ? favs.filter(x => x !== id) : favs.concat(id);
-    setFavs(next);
+    cloud.setFavs(next);
     this.setData({ fav: !has });
     wx.showToast({ title: has ? '已取消收藏' : '已收藏', icon: 'none' });
+    console.log('[detail.toggleFav] 已调 cloud.setFavs, next.length=' + next.length + ' openid空=' + (cloud.isCloudReady() ? '否' : '是'));
     // P0：首次收藏成功，趁正向时刻引导添加到我的小程序（轻量模态）
     if (!has) {
-      const n = getFavs().length;
+      const n = cloud.getFavs().length;
       const comp = this.selectComponent('#favGuide');
       favGuide.tryGuide(comp, {
         mode: 'modal',

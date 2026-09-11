@@ -1,14 +1,19 @@
-<!-- 训练计划：预设计划列表 -->
+<!-- 训练计划：预设计划 + 自定义计划（合并展示，可调整顺序） -->
 <view class="page">
 
   <view class="hero-head">
     <view class="hero-title">训练计划</view>
     <view class="hero-sub">科学编排 · 循序渐进 · 覆盖全身肌群</view>
+    <!-- 编辑按钮 -->
+    <view class="edit-toggle {{editing ? 'on' : ''}}" bindtap="toggleEdit">
+      <text wx:if="{{!editing}}">调整顺序</text>
+      <text wx:else>完成</text>
+    </view>
   </view>
 
   <view class="plan-list">
     <view
-      class="plan-card ff-card ff-press"
+      class="plan-card ff-card ff-press {{editing ? 'editing' : ''}}"
       wx:for="{{plans}}"
       wx:key="id"
       bindtap="goPlan"
@@ -16,29 +21,48 @@
     >
       <view class="plan-cover {{item.hue}}">
         <view class="plan-wm ico ico-dumbbell"></view>
-        <view class="plan-level"><view class="pl-fire ico ico-fire"></view>{{item.level}}</view>
+        <view class="plan-level">
+          <view class="pl-fire ico ico-fire"></view>{{item._kind === 'custom' ? '自定义' : item.level}}
+        </view>
         <view class="plan-name">{{item.name}}</view>
       </view>
       <view class="plan-body">
         <view class="plan-desc">{{item.desc}}</view>
         <view class="plan-meta">
           <view class="pm"><view class="pm-ico ico ico-clock"></view>{{item.duration}}</view>
-          <view class="pm-count">{{item.exerciseIds.length}} 个动作</view>
+          <view class="pm-count">{{item._count}} 个动作</view>
         </view>
-        <view class="plan-tags">
+        <view class="plan-tags" wx:if="{{item.target && item.target.length}}">
           <text class="tag" wx:for="{{item.target}}" wx:key="*this" wx:for-item="t">{{t}}</text>
+        </view>
+        <view class="plan-badges">
+          <text class="plan-badge" wx:if="{{item._todayName}}">今天：{{item._todayName}}</text>
+          <text class="plan-badge muted">上次：{{item._lastDate}}</text>
+        </view>
+      </view>
+      <!-- 编辑模式：上下移动按钮 -->
+      <view class="plan-order" wx:if="{{editing}}" catchtap="noop">
+        <view class="po-btn" bindtap="moveUp" data-id="{{item.id}}" aria-label="上移">
+          <view class="ico ico-chevron-up"></view>
+        </view>
+        <view class="po-btn" bindtap="moveDown" data-id="{{item.id}}" aria-label="下移">
+          <view class="ico ico-chevron-down"></view>
         </view>
       </view>
     </view>
   </view>
 
+  <!-- 创建入口 -->
+  <view class="create-btn" bindtap="createPlan">
+    <view class="cb-plus">+</view>
+    创建我的训练计划
+  </view>
+
   <view class="safe-bottom"></view>
 
-  <!-- 一键返回顶部 -->
   <view wx:if="{{showBackTop}}" class="back-top" bindtap="scrollToTop" aria-label="返回顶部">
     <view class="bt-ico ico ico-chevron-up-primary"></view>
   </view>
 
-  <!-- 收藏引导（添加到「我的小程序」） -->
   <fav-guide id="favGuide" />
 </view>

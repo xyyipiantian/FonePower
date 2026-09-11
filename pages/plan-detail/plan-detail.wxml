@@ -1,12 +1,14 @@
 <view class="page" wx:if="{{plan}}">
 
   <view class="hero {{plan.hue}}">
+    <view class="hero-mask"></view>
     <view class="hero-wm ico ico-dumbbell"></view>
     <view class="hero-level"><view class="hl-fire ico ico-fire"></view>{{plan.level}}</view>
     <view class="hero-name">{{plan.name}}</view>
     <view class="hero-meta">
       <view class="hm"><view class="hm-ico ico ico-clock"></view>{{plan.duration}}</view>
-      <view class="hm-count">{{exercises.length}} 个动作</view>
+      <view class="hm-count" wx:if="{{days.length}}">{{days.length}} 天循环</view>
+      <view class="hm-count" wx:else>{{exercises.length}} 个动作</view>
     </view>
   </view>
 
@@ -17,38 +19,147 @@
     </view>
   </view>
 
+  <!-- 排程卡（仅结构化计划显示） -->
+  <view class="sched-card ff-card" wx:if="{{schedule}}">
+    <view class="sched-head">
+      <view class="sched-title">排程</view>
+      <view class="sched-cycle">{{schedule.cycle}} 天循环</view>
+    </view>
+    <view class="sched-pattern">{{schedule.pattern}}</view>
+    <view class="sched-note">{{schedule.note}}</view>
+  </view>
+
+  <!-- 器械条件切换（仅结构化计划） -->
+  <view class="env-card ff-card" wx:if="{{envHint}}">
+    <view class="env-head" bindtap="toggleEnvPanel">
+      <view class="env-label">器械条件</view>
+      <view class="env-current">
+        <text wx:if="{{env==='gym'}}">健身房</text>
+        <text wx:elif="{{env==='home'}}">居家</text>
+        <text wx:else>纯徒手</text>
+      </view>
+      <view class="env-toggle ico ico-chevron {{envOpen?'env-open':''}}"></view>
+    </view>
+    <view class="env-options" wx:if="{{envOpen}}">
+      <view
+        class="env-opt {{env==='gym'?'on':''}}"
+        data-env="gym"
+        bindtap="pickEnv"
+      >
+        <view class="env-opt-name">健身房</view>
+        <view class="env-opt-desc">{{envHint.gym}}</view>
+      </view>
+      <view
+        class="env-opt {{env==='home'?'on':''}}"
+        data-env="home"
+        bindtap="pickEnv"
+      >
+        <view class="env-opt-name">居家</view>
+        <view class="env-opt-desc">{{envHint.home}}</view>
+      </view>
+      <view
+        class="env-opt {{env==='bodyweight'?'on':''}}"
+        data-env="bodyweight"
+        bindtap="pickEnv"
+      >
+        <view class="env-opt-name">纯徒手</view>
+        <view class="env-opt-desc">{{envHint.bodyweight}}</view>
+      </view>
+    </view>
+  </view>
+
   <view class="start-btn" bindtap="startTrain">
     <view class="sb-ico ico ico-play"></view>开始训练
   </view>
 
-  <view class="sec-title">训练动作</view>
-
-  <view class="ex-list">
-    <view
-      class="ex-row ff-card ff-press"
-      wx:for="{{exercises}}"
-      wx:key="id"
-      bindtap="goDetail"
-      data-id="{{item.id}}"
-    >
-      <view class="ex-no">{{index + 1}}</view>
-      <image
-        wx:if="{{!item._err}}"
-        class="ex-thumb"
-        src="{{item.image}}"
-        mode="aspectFill"
-        lazy-load
-        binderror="onImgError"
-        data-id="{{item.id}}"
-      />
-      <view wx:else class="ex-thumb ph-box">{{item.initial}}</view>
-      <view class="ex-info">
-        <view class="ex-name">{{item.nameZh || item.name}}</view>
-        <view class="ex-meta">{{item.bodyPartLabel}} · {{item.targetLabel}}</view>
-      </view>
-      <view class="ex-go ico ico-chevron"></view>
-    </view>
+  <!-- 公开计划：允许复制到自己计划库 -->
+  <view class="copy-btn" wx:if="{{plan.isPublic}}" bindtap="copyPlan">
+    <view class="cb-ico ico ico-plus"></view>使用此计划（添加到我的训练）
   </view>
+
+  <!-- ===== 结构化计划：按 day 分组 ===== -->
+  <block wx:if="{{days.length}}">
+    <view class="day" wx:for="{{days}}" wx:key="name" wx:for-item="day">
+      <view class="day-head">
+        <view class="day-no">{{index + 1}}</view>
+        <view class="day-name">{{day.name}} 日</view>
+        <view class="day-focus">{{day.focus}}</view>
+      </view>
+      <view
+        class="item-card ff-card {{it._isOverridden ? 'ov' : ''}}"
+        wx:for="{{day.items}}"
+        wx:key="idx"
+        wx:for-item="it"
+        bindlongtap="onItemLongTap"
+        data-day="{{index}}"
+        data-item="{{index2}}"
+        wx:for-index="index2"
+      >
+        <view class="item-no">{{it.idx}}</view>
+        <view class="item-body">
+          <view class="item-head">
+            <text class="item-name" bindtap="goDetail" data-id="{{it.exerciseId}}">{{it.name}}</text>
+            <view class="item-pill">
+              <text class="pill">{{it.sets}} 组</text>
+              <text class="pill pill-amber">×{{it.reps}}</text>
+              <text class="pill pill-red">RPE {{it.rpe}}</text>
+              <text wx:if="{{it._isOverridden}}" class="pill pill-ov">已替换</text>
+            </view>
+          </view>
+          <view class="item-rest">组间休息 {{it.rest}} 秒 · 长按替换</view>
+          <view class="item-note" wx:if="{{it.note}}">
+            <text class="note-label">要点</text>
+            <text class="note-text">{{it.note}}</text>
+          </view>
+          <view class="item-cue" wx:if="{{it.cue}}">
+            <text class="cue-label">口令</text>
+            <text class="cue-text">{{it.cue}}</text>
+          </view>
+        </view>
+        <image
+          wx:if="{{it.hasEx}}"
+          class="item-thumb"
+          src="{{it.image}}"
+          mode="aspectFill"
+          lazy-load
+          bindtap="goDetail"
+          data-id="{{it.exerciseId}}"
+        />
+        <view wx:else class="item-thumb ph-box">{{it.initial}}</view>
+      </view>
+    </view>
+  </block>
+
+  <!-- ===== 旧计划：动作列表 ===== -->
+  <block wx:else>
+    <view class="sec-title">训练动作</view>
+    <view class="ex-list">
+      <view
+        class="ex-row ff-card ff-press"
+        wx:for="{{exercises}}"
+        wx:key="id"
+        bindtap="goDetail"
+        data-id="{{item.id}}"
+      >
+        <view class="ex-no">{{index + 1}}</view>
+        <image
+          wx:if="{{!item._err}}"
+          class="ex-thumb"
+          src="{{item.image}}"
+          mode="aspectFill"
+          lazy-load
+          binderror="onImgError"
+          data-id="{{item.id}}"
+        />
+        <view wx:else class="ex-thumb ph-box">{{item.initial}}</view>
+        <view class="ex-info">
+          <view class="ex-name">{{item.nameZh || item.name}}</view>
+          <view class="ex-meta">{{item.bodyPartLabel}} · {{item.targetLabel}}</view>
+        </view>
+        <view class="ex-go ico ico-chevron"></view>
+      </view>
+    </view>
+  </block>
 
   <view class="safe-bottom"></view>
 </view>
@@ -57,5 +168,38 @@
   <view class="empty-text">未找到该计划</view>
 </view>
 
-<!-- 收藏引导（添加到「我的小程序」） -->
+<!-- 替换动作浮层 -->
+<view wx:if="{{replaceOpen}}" class="replace-mask" bindtap="closeReplace">
+  <view class="replace-panel" catchtap="noop">
+    <view class="rp-head">
+      <view class="rp-title">替换动作</view>
+      <view class="rp-sub">原：{{replaceTarget.name}}</view>
+    </view>
+    <view class="rp-search">
+      <input
+        class="rp-input"
+        placeholder="输入动作名搜索（中文/英文）"
+        placeholder-class="rp-input-ph"
+        value="{{replaceKeyword}}"
+        bindinput="onReplaceInput"
+        confirm-type="search"
+      />
+    </view>
+    <view class="rp-list">
+      <view
+        wx:for="{{replaceResults}}"
+        wx:key="id"
+        class="rp-row"
+        bindtap="pickReplace"
+        data-ex="{{item}}"
+      >
+        <view class="rp-name">{{item.name}}</view>
+        <view class="rp-meta">{{item.bodyPart}} · {{item.target}}</view>
+      </view>
+      <view wx:if="{{replaceKeyword && !replaceResults.length}}" class="rp-empty">没找到匹配动作</view>
+    </view>
+    <view class="rp-close" bindtap="closeReplace">取消</view>
+  </view>
+</view>
+
 <fav-guide id="favGuide" />

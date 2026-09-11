@@ -1,106 +1,181 @@
-# FitFlow 健身动作库小程序
+# FonePower · 健身训练小程序
 
-基于开源健身数据集的可视化动作库微信小程序。提供动作 GIF 动态图解、按部位/器械/目标肌群检索、训练计划与收藏功能，帮助用户学习标准动作、科学规划日常训练。
+> 基于开源动作数据集的微信小程序。集**动作库 · 训练计划 · 训练日志 · 自定义计划 · 训练流程跟练**于一体。
+> 朋友 / 个人使用，**免费 / 非商用**。
 
-## 功能特性
+## 功能
 
+### 核心
 | 模块 | 说明 |
 | --- | --- |
-| **动作库（首页）** | 1324 条健身动作，支持关键词搜索与「身体部位 / 训练器械 / 目标肌群」三维分类筛选；带返回顶部悬浮按钮。 |
-| **动作详情** | 动作 GIF 动态图解 + 静态图、标准要领分步说明、部位/器械/目标肌群标签、一键收藏。 |
-| **训练计划** | 预设训练计划列表与计划详情（组合多个动作）。 |
-| **我的收藏** | 收藏的动作集中查看，本地持久化。 |
-| **营养食材** | 内置 1000+ 条常见食材营养数据（能量 / 蛋白质 / 碳水 / 脂肪 / 膳食纤维 / 钠），支持搜索与详情查看，独立分包 `packageNutrition`。 |
-| **个人中心** | 用户信息、收藏数等入口。 |
-| **自定义 TabBar** | 动作库 / 训练计划 / 收藏 / 营养 / 我的，激活态高对比青色胶囊指示。 |
+| **动作库** | 1324 条健身动作，关键词搜索 + 身体部位 / 训练器械 / 目标肌群三维筛选。 |
+| **动作详情** | GIF 动态图解 + 静态图 + 标准要领分步说明 + 一键收藏。 |
+| **训练计划** | 7 套预设计划（含《焚诀三分化》8 天循环改造版）按部位 / 全身 / 经典三分化全覆盖。 |
+| **计划详情** | 倒金字塔组数、组间休息 RPE、要点 + 口诀；按器械条件（健身房 / 居家 / 纯徒手）自动切换动作变体。 |
+| **训练跟练** | 训练中：单动作依次完成、组间休息倒计时、自动跳转下一组；退出再进保留进度。 |
+| **训练日志** | 完整记录每次训练，可「再来一次」重开同 plan；统计累计组数 / 重量。 |
+| **自定义计划** | 自由组合动作、自定义组数次数 RPE 休息，存云端多设备同步。 |
+| **收藏** | 收藏喜欢的动作，本地 + 云端双写，多设备同步。 |
+| **营养食材** | 1000+ 条食材营养数据（独立分包）。 |
+| **个人中心** | 训练统计、设置入口。 |
 
-## 技术架构
+### 进阶
+- **计划排序**：训练计划可上下移动，记住你的偏好顺序
+- **动作替换**：内置计划里的动作**长按**可换成别的（只改你本机视图，不污染公共数据）
+- **器械条件切换**：同一计划根据「健身房 / 居家 / 纯徒手」自动展示不同动作变体
+- **训练进度持久化**：中途退出训练，再次进入时询问是否继续
 
-- **平台**：微信小程序（原生开发，非 uni-app / Taro）。
-- **UI 方案**：WXML + WXSS，设计变量集中于 `styles/tokens.wxss`，图标为 `styles/icons.wxss` 内联 SVG（CSS `background-image`），无第三方 UI 库。
-- **数据加载**：构建时静态打包，运行时从 `utils/exercises.js` 内存数组直接读取，无远程 API 调用。
-- **媒体资源**：动作 GIF / 图片按 URL 从 [jsDelivr CDN](https://cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset@main/) 实时加载（需在小程序后台配置 `downloadFile` 合法域名）。
-- **云环境**：已开通 CloudBase 环境，当前未接入业务代码（收藏等功能仍走本地 Storage）。
+## 技术栈
 
-### 目录结构
+- **平台**：微信小程序（原生 WXML + WXSS + JS）
+- **云服务**：CloudBase（`wx.cloud`），按 `openid` 隔离数据
+- **数据同步**：本地 Storage + 云端双写，断网自动降级本地
+- **UI**：自研设计系统（`styles/tokens.wxss` + `styles/icons.wxss` 内联 SVG），无第三方 UI 库
+- **媒体**：动作 GIF / 图片从 [jsDelivr CDN](https://cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset@main/) 加载
+- **数据源**：[hasaneyldrm/exercises-dataset](https://github.com/hasaneyldrm/exercises-dataset)（代码与数据 MIT，媒体 © GymVisual）
+
+## 目录结构
 
 ```
-FitFlow/
-├── app.js / app.json / app.wxss     小程序入口与全局配置
-├── custom-tab-bar/                   自定义底部 TabBar 组件
+FonePower/
+├── app.js / app.json / app.wxss         入口与全局配置
+├── custom-tab-bar/                       自定义底部 TabBar
 ├── pages/
-│   ├── index/                       动作库（首页：搜索 + 分类筛选）
-│   ├── detail/                      动作详情（GIF 图解 + 要领 + 收藏）
-│   ├── plans/                       训练计划列表
-│   ├── plan-detail/                 计划详情
-│   ├── favorites/                   我的收藏
-│   └── profile/                    个人中心
-├── packageNutrition/                营养食材分包（列表 + 详情）
+│   ├── index/                            动作库（首页）
+│   ├── detail/                           动作详情
+│   ├── plans/                            训练计划列表
+│   ├── plan-detail/                      计划详情（带动作替换）
+│   ├── plan-editor/                      自定义计划编辑器
+│   ├── custom-plan/                      我的计划详情
+│   ├── training/                         训练跟练页
+│   ├── training-log/                     训练日志
+│   ├── favorites/                        收藏
+│   └── profile/                          个人中心
+├── packageNutrition/                     营养食材分包
 ├── styles/
-│   ├── tokens.wxss                 设计变量（颜色 / 阴影 / 圆角 / 动画时长）
-│   └── icons.wxss                  矢量图标库（内联 SVG）
+│   ├── tokens.wxss                       设计变量（颜色/阴影/圆角/动画）
+│   └── icons.wxss                        矢量图标库
 ├── utils/
-│   └── exercises.js                构建生成的动作数据模块（运行时数据源）
-├── dataset-ref/
-│   ├── exercises.json               原始数据集（1324 条动作）
-│   └── build.js                    将 JSON 转换为 utils/exercises.js
-├── design/                         设计规范 / 设计稿
+│   ├── exercises.js                      动作数据（1324 条，运行时数据源）
+│   ├── plans.js                          内置训练计划（7 套，结构化 days+items+variants）
+│   ├── cloud.js                          CloudBase 封装（登录 + 收藏/计划/排序/替换 override 同步）
+│   ├── trainingLog.js                    训练日志 CRUD + 云同步
+│   └── favGuide.js                       收藏引导组件
+├── components/fav-guide/                 收藏引导组件
+├── cloudfunctions/login/                 静默登录云函数（拿 openid）
+├── dataset-ref/                          数据集原始 JSON + 构建脚本（已从打包排除）
+├── docs/                                 配套文档（体态评估、焚诀手册、动作图解）
+├── design/                               设计系统规范
 ├── project.config.json
 └── sitemap.json
 ```
 
-## 数据来源与构建
+## 数据存储
 
-动作数据来源于开源项目 [hasaneyldrm/exercises-dataset](https://github.com/hasaneyldrm/exercises-dataset)（代码与数据 MIT，媒体资源 © GymVisual）。营养食材数据来源于公开营养数据库。
+| 数据 | 位置 | 同步策略 |
+| --- | --- | --- |
+| 动作主数据 | `utils/exercises.js`（代码包内） | 静态快照，发布更新 |
+| 收藏 | 本地 Storage + CloudBase `users.favorites` | 双写，断网降级本地 |
+| 自定义计划 | 本地 Storage + CloudBase `users.plans` | 双写 |
+| 计划排序 | 本地 Storage + CloudBase `users.planOrder` | 双写 |
+| 动作替换 override | 本地 Storage + CloudBase `users.planOverrides` | 双写 |
+| 训练日志 | 本地 Storage + CloudBase `users.trainingLogs` | 双写 |
+| 器械条件 | 本地 Storage | 单一设备 |
 
-本地仓库已包含完整数据集与构建产物，克隆即可运行：
-
-```bash
-# 如需重新生成动作数据模块（数据集更新后）
-node dataset-ref/build.js
-# 输出: utils/exercises.js  (含 EXERCISES / OPTIONS / getById / filter 等方法)
-```
-
-`build.js` 的策略：
-- 仅保留中文说明（`instructions.zh`）以控制包体积；
-- 身体部位 / 器械 / 目标肌群的中英文映射在 `build.js` 的 `MAP` 中维护；
-- 媒体（GIF / 图）走 jsDelivr CDN，不打包进代码；
-- 动作要领按标点切分为分步 `steps`。
-
-> **重要限制**：数据集是「构建时快照」。上游仓库新增动作**不会**自动反映到线上小程序，必须重新运行 `build.js` 并重新发布。
-
-## 隐私合规
-
-本项目遵循微信《用户隐私保护指引》：
-- 复制外链使用剪切板接口；
-- 计算引导提示位置使用窗口信息接口；
-- 切换 TabBar 使用振动接口。
-上述接口的采集目的已在小程序后台声明。具体声明内容请在微信公众平台「用户隐私保护指引」中查看。
+**用户隔离**：所有云端数据按 `openid` 存放在 `users/{openid}` 单一文档的多个字段下，集合权限为「仅创建者可读写」。
 
 ## 本地开发
 
-1. 用**微信开发者工具**导入本项目目录。
-2. 在 `project.config.json` 中填入你的 AppID（或使用测试号），**仓库不包含具体 AppID**。
-3. 在「详情 → 本地设置」中确认已开启「不校验合法域名」（或已配置 jsDelivr CDN 为合法域名）。
-4. 编译预览。`project.config.json` 已开启 `bigPackageSizeSupport`（数据集较大）。
+### 1. 准备
 
-## 数据存储现状
+- 微信开发者工具（最新稳定版）
+- 申请微信小程序 AppID（个人 / 测试号均可）
+- 微信云开发环境（**可选**，不开通会自动降级本地 Storage）
 
-| 数据 | 存储位置 | 说明 |
-| --- | --- | --- |
-| 动作主数据 | `utils/exercises.js`（代码包内） | 静态快照，更新需重新构建 + 发版。 |
-| 收藏数据 | 用户手机**本地 Storage** | 换机 / 清缓存 / 卸载会丢失，多设备不互通。 |
-| CloudBase 云库 | 环境已开，未接入 | 后续可迁移收藏、计划、训练记录以实现跨设备持久化。 |
+### 2. 导入项目
 
-## Roadmap
+1. 微信开发者工具 → 导入项目 → 选择本仓库根目录
+2. **首次 clone**：仓库里没有 `project.config.json`（避免 appid 泄漏），需手动从 `project.config.example.json` 复制一份并填入你的 `appid`
+3. 编译预览
 
-- [ ] 接入 CloudBase：收藏 / 计划迁移至云数据库，支持跨设备与多用户。
-- [ ] 动作库改为云库运行时拉取，解决「数据集不自动更新」问题。
-- [ ] 训练记录 / 打卡等进阶功能。
+### 3. 云环境（可选）
 
-## 许可证
+如果想用云同步功能：
 
-- 代码：MIT
-- 动作数据：MIT（[hasaneyldrm/exercises-dataset](https://github.com/hasaneyldrm/exercises-dataset)）
-- 媒体（GIF / 图片）：© GymVisual，遵循原仓库授权说明
-- 营养数据：来自公开营养数据库（如 wger、Open Food Facts），遵循其对应授权
+1. 工具栏「云开发」→ 创建环境（免费版够用）
+2. 复制环境 ID，填入 `utils/cloud.js` 的 `CLOUD_ENV`
+3. 在云数据库创建 `users` 集合，权限选「**仅创建者可读写**」
+4. 右键 `cloudfunctions/login/` → 上传并部署（依赖：wx-server-sdk）
+5. 重启小程序，自动静默登录 + 拉取云端数据
+
+不开通云环境，**核心功能全部可用**（仅收藏 / 自定义计划 / 训练日志不跨设备）。
+
+### 4. 域名白名单
+
+- 在微信公众平台 → 开发管理 → 服务器域名，配置 `cdn.jsdelivr.net` 为 `downloadFile` 合法域名
+- 或者在开发者工具「详情 → 本地设置」勾选「不校验合法域名」（仅本地预览用）
+
+## 训练计划
+
+内置 7 套计划：
+
+| 计划 | 部位 | 强度 | 排程 | 备注 |
+| --- | --- | --- | --- | --- |
+| 胸肌塑形 | 胸 · 三头 | 初级 | 单日 | 结构化，要点 + 口诀 |
+| 背部雕刻 | 背 · 二头 · 后束 | 中级 | 单日 | 含面拉改善圆肩 |
+| 肩部三角 | 三角肌 | 初级 | 单日 | 前 / 中 / 后束全覆盖 |
+| 下肢力量 | 腿 · 臀 | 中级 | 单日 | 含保加利亚蹲 / 单腿硬拉 |
+| 核心燃脂 | 腹直 · 腹斜 | 初级 | 单日 | 仰卧起坐系列 |
+| 全身激活 | 全身 | 进阶 | 单日 | 多关节循环 |
+| **焚诀三分化 · 8 天循环** | 推 / 拉 / 腿 | 中高级 | 推-拉-腿-休 滚动 | 凯圣王×谭成义《焚诀》久坐族改造版 |
+
+每个计划都支持 **gym / home / bodyweight** 三套动作变体。
+
+## 配套文档
+
+`docs/` 目录下：
+
+- `久坐族体态评估与12周减脂计划.md` — 体态自测 + 三阶段减脂方案
+- `焚诀三分化-完整执行手册.md` — 焚诀完整版说明
+- `焚诀三分化-动作图解手册.html` — 15 个动作 SVG 图解
+
+## 隐私
+
+本项目遵循微信《用户隐私保护指引》：
+
+- 复制外链使用 `wx.setClipboardData`
+- 弹窗位置使用 `wx.getSystemInfoSync`
+- 反馈使用 `wx.vibrateShort`
+
+上述接口的采集目的需在小程序后台「用户隐私保护指引」中声明（开启 `__usePrivacyCheck__` 后会强制检查）。
+
+## 上线 / 体验
+
+**个人 / 朋友使用建议走「体验版」**，最稳：
+
+1. 开发者工具 → 右上「上传」→ 填版本号 → 上传
+2. 微信公众平台 → 成员管理 → 添加朋友为体验者
+3. 朋友扫码即可用，无需类目资质、免审核
+
+如果要正式发布（搜索能搜到），需：
+
+- 个人主体选择「体育 / 健身」类目
+- 完成 ICP 备案
+- 提交「用户隐私保护指引」
+
+## 数据来源与许可
+
+- **代码**：MIT
+- **动作数据**：[hasaneyldrm/exercises-dataset](https://github.com/hasaneyldrm/exercises-dataset)（MIT）
+- **媒体（GIF / 图片）**：© GymVisual，遵循原仓库授权
+- **营养数据**：来自公开营养数据库（wger、Open Food Facts 等），遵循其对应授权
+
+## 致谢
+
+- 凯圣王 × 谭成义《焚诀三分化》原版思路
+- [hasaneyldrm/exercises-dataset](https://github.com/hasaneyldrm/exercises-dataset) 提供完整动作数据
+- 上游 [duziteng2019/FitFlow](https://github.com/duziteng2019/FitFlow) 提供项目骨架
+
+---
+
+> 个人 / 朋友用，**免费 + 非商用**。觉得好用就 Star 一下 ⭐

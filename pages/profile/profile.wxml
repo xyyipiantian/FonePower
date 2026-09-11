@@ -26,16 +26,18 @@
     </view>
   </view>
 
-  <!-- 关于数据源 -->
+  <!-- 训练日志入口 -->
   <view class="section">
-    <view class="sec-title">关于数据</view>
-    <view class="about-text">
-      本应用动作数据来源于开源数据集
-      <text class="link" bindtap="openRepo">exercises-dataset</text>，涵盖
-      {{total}} 个训练动作，支持按身体部位、训练器械与目标肌群多维度检索。
-    </view>
-    <view class="attr">演示媒体版权归属
-      <text class="link" bindtap="openGymvisual">Gym visual</text>，仅作学习展示之用。
+    <view class="sec-title">我的训练</view>
+    <view class="menu-list">
+      <view class="menu-item ff-card ff-press" bindtap="goTrainingLog">
+        <view class="mi-ico ico ico-clipboard"></view>
+        <view class="mi-body">
+          <view class="mi-name">训练日志</view>
+          <view class="mi-desc">查看所有训练记录、累计次数</view>
+        </view>
+        <view class="mi-go ico ico-chevron"></view>
+      </view>
     </view>
   </view>
 

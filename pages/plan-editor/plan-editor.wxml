@@ -1,0 +1,129 @@
+<!-- 创建我的训练计划 -->
+<view class="page">
+
+  <view class="form-card ff-card">
+    <view class="field">
+      <view class="field-label">计划名称</view>
+      <input
+        class="field-input"
+        placeholder="例如：居家胸背日"
+        value="{{name}}"
+        bindinput="onNameInput"
+      />
+    </view>
+    <view class="field">
+      <view class="field-label">备注（可选）</view>
+      <input
+        class="field-input"
+        placeholder="例如：减脂期，注意控制休息时间"
+        value="{{desc}}"
+        bindinput="onDescInput"
+      />
+    </view>
+  </view>
+
+  <view class="sec-title">挑选动作（{{picked.length}}）</view>
+
+  <view class="search-box ff-card">
+    <input
+      class="search-input"
+      placeholder="搜索动作中文/英文名，如「卧推」「bench」"
+      value="{{searchKey}}"
+      bindinput="onSearchInput"
+      bindfocus="toggleBodyPartBar"
+    />
+    <!-- 部位滑动过滤条 -->
+    <scroll-view scroll-x class="bp-bar" wx:if="{{bodyPartOpen || activeBodyPart}}">
+      <view
+        class="bp-chip {{activeBodyPart === item.value ? 'on' : ''}}"
+        wx:for="{{bodyParts}}"
+        wx:key="value"
+        bindtap="pickBodyPart"
+        data-value="{{item.value}}"
+      >
+        {{item.label}} <text class="bp-count">{{item.count}}</text>
+      </view>
+    </scroll-view>
+    <view class="search-results" wx:if="{{searchResults.length || (activeBodyPart && !searchKey)}}">
+      <view
+        class="sr-item ff-press"
+        wx:for="{{searchResults}}"
+        wx:key="id"
+        bindtap="pickExercise"
+        data-id="{{item.id}}"
+      >
+        <image class="sr-thumb" src="{{item.image}}" mode="aspectFill" lazy-load />
+        <view class="sr-info">
+          <view class="sr-name">{{item.nameZh || item.name}}</view>
+          <view class="sr-sub">{{item.bodyPartLabel}} · {{item.targetLabel}}</view>
+        </view>
+        <view class="sr-add">+</view>
+      </view>
+      <view class="sr-empty" wx:if="{{!searchResults.length}}">没有匹配的动作</view>
+    </view>
+  </view>
+
+  <view class="picked-list">
+    <view class="picked-item ff-card" wx:for="{{picked}}" wx:key="id">
+      <view class="pi-head">
+        <image class="pi-thumb" src="{{item.image}}" mode="aspectFill" lazy-load />
+        <view class="pi-name">{{item.name}}</view>
+        <view class="pi-remove" bindtap="removePicked" data-id="{{item.id}}">×</view>
+      </view>
+      <view class="pi-order">
+        <view class="pi-order-btn" bindtap="moveUp" data-id="{{item.id}}">↑ 上移</view>
+        <view class="pi-order-btn" bindtap="moveDown" data-id="{{item.id}}">↓ 下移</view>
+        <view class="pi-order-no">{{index + 1}} / {{picked.length}}</view>
+      </view>
+      <view class="pi-fields">
+        <view class="pi-field">
+          <text class="pi-label">组</text>
+          <input class="pi-input" type="number" value="{{item.sets}}" data-id="{{item.id}}" data-field="sets" bindinput="editField" />
+        </view>
+        <view class="pi-field">
+          <text class="pi-label">次</text>
+          <input class="pi-input" value="{{item.reps}}" data-id="{{item.id}}" data-field="reps" bindinput="editField" />
+        </view>
+        <view class="pi-field">
+          <text class="pi-label">RPE</text>
+          <input class="pi-input" type="number" value="{{item.rpe}}" data-id="{{item.id}}" data-field="rpe" bindinput="editField" />
+        </view>
+        <view class="pi-field">
+          <text class="pi-label">休息s</text>
+          <input class="pi-input" type="number" value="{{item.rest}}" data-id="{{item.id}}" data-field="rest" bindinput="editField" />
+        </view>
+      </view>
+      <view class="pi-note">
+        <text class="pi-note-label">要点</text>
+        <textarea
+          class="pi-textarea"
+          placeholder="动作要点，如：肩胛后收下沉，肘部贴紧身体"
+          value="{{item.note}}"
+          auto-height
+          maxlength="200"
+          data-id="{{item.id}}"
+          data-field="note"
+          bindinput="editField"
+        />
+      </view>
+      <view class="pi-note cue">
+        <text class="pi-note-label">口令</text>
+        <textarea
+          class="pi-textarea"
+          placeholder="训练口令，如：顶峰收缩 1 秒，控制下放"
+          value="{{item.cue}}"
+          auto-height
+          maxlength="200"
+          data-id="{{item.id}}"
+          data-field="cue"
+          bindinput="editField"
+        />
+      </view>
+    </view>
+    <view class="picked-empty" wx:if="{{!picked.length}}">还没挑动作，先搜索并点击「+」添加</view>
+  </view>
+
+  <view class="save-btn" bindtap="savePlan">保存计划</view>
+
+  <view class="safe-bottom"></view>
+</view>

@@ -1,0 +1,125 @@
+<!-- FitFlow · 训练页面 -->
+<view class="page" wx:if="{{!done}}">
+  <!-- 顶部进度条 -->
+  <view class="top-bar">
+    <view class="top-back" bindtap="cancelTraining">×</view>
+    <view class="top-title">{{plan.name}} · {{dayName}}</view>
+    <view class="top-progress">{{itemIndex + 1}}/{{items.length}}</view>
+  </view>
+
+  <view class="progress-bar">
+    <view class="progress-fill" style="width: {{(itemIndex / items.length) * 100}}%"></view>
+  </view>
+
+  <!-- 当前动作卡 -->
+  <view class="current-card ff-card" wx:if="{{currentItem}}">
+    <view class="current-no">{{itemIndex + 1}}</view>
+    <view class="current-body">
+      <view class="current-name">{{currentItem.name}}</view>
+      <view class="current-meta">
+        <text class="meta-pill">{{setsTotal}} 组</text>
+        <text class="meta-pill amber">×{{currentItem.reps}}</text>
+        <text class="meta-pill red">RPE {{currentItem.rpe}}</text>
+      </view>
+      <view class="current-rest">组间休息 {{currentItem.rest}} 秒</view>
+    </view>
+    <image
+      wx:if="{{currentItem.image}}"
+      class="current-thumb"
+      src="{{currentItem.image}}"
+      mode="aspectFill"
+      lazy-load
+      bindtap="goDetail"
+    />
+    <view wx:else class="current-thumb ph-box" bindtap="goDetail">?</view>
+  </view>
+
+  <!-- 要点 / 口令 -->
+  <view class="note-card ff-card" wx:if="{{currentItem.note}}">
+    <text class="note-label">要点</text>
+    <text class="note-text">{{currentItem.note}}</text>
+  </view>
+  <view class="cue-card ff-card" wx:if="{{currentItem.cue}}">
+    <text class="cue-label">口令</text>
+    <text class="cue-text">{{currentItem.cue}}</text>
+  </view>
+
+  <!-- 组进度 -->
+  <view class="sets-card ff-card">
+    <view class="sets-title">本动作进度（{{setIndex}}/{{setsTotal}}）</view>
+    <view class="sets-list">
+      <view
+        class="set-row {{item.done ? 'done' : (index === setIndex ? 'active' : '')}}"
+        wx:for="{{setProgress}}"
+        wx:key="index"
+      >
+        <view class="set-no">第 {{index + 1}} 组</view>
+        <view class="set-status">
+          <text wx:if="{{item.done}}" class="done-badge">✓ 完成</text>
+          <text wx:elif="{{index === setIndex}}" class="active-badge">当前组</text>
+          <text wx:else class="pending-badge">未开始</text>
+        </view>
+        <input
+          class="set-weight"
+          placeholder="kg"
+          value="{{item.weight}}"
+          type="digit"
+          data-idx="{{index}}"
+          bindinput="onWeightInput"
+        />
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-area">
+    <view class="complete-btn" bindtap="completeSet">
+      <view class="cb-ico ico ico-check"></view>
+      <text wx:if="{{itemIndex + 1 < items.length || setIndex + 1 < setsTotal}}">完成第 {{setIndex + 1}} 组</text>
+      <text wx:else>完成训练 🎉</text>
+    </view>
+  </view>
+
+  <!-- 休息倒计时弹层 -->
+  <view class="rest-mask" wx:if="{{showRest}}">
+    <view class="rest-card">
+      <view class="rest-title">休息中</view>
+      <view class="rest-time">{{restSeconds}}s</view>
+      <view class="rest-progress">
+        <view class="rest-progress-fill" style="width: {{(restSeconds / restTotal) * 100}}%"></view>
+      </view>
+      <view class="rest-skip" bindtap="skipRest">跳过休息 →</view>
+    </view>
+  </view>
+
+  <view class="safe-bottom"></view>
+</view>
+
+<!-- 完成总结 -->
+<view class="done-page" wx:else>
+  <view class="done-hero">
+    <view class="done-emoji">🎉</view>
+    <view class="done-title">训练完成！</view>
+    <view class="done-plan">{{summary.planName}} · {{summary.dayName}}</view>
+  </view>
+
+  <view class="done-stats ff-card">
+    <view class="stat-row">
+      <view class="stat-label">总组数</view>
+      <view class="stat-value">{{summary.totalSets}}</view>
+    </view>
+    <view class="stat-row">
+      <view class="stat-label">动作数</view>
+      <view class="stat-value">{{summary.itemsCount}}</view>
+    </view>
+    <view class="stat-row">
+      <view class="stat-label">训练时长</view>
+      <view class="stat-value">{{summary.duration}} 秒</view>
+    </view>
+  </view>
+
+  <view class="done-tip">已经记录到训练日志，下次练你能看到历史。</view>
+
+  <view class="done-btn" bindtap="finishAndExit">完成</view>
+  <view class="safe-bottom"></view>
+</view>

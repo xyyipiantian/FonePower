@@ -98,4 +98,21 @@
   line-height: 1.6;
 }
 
+.menu-list { margin-top: 16rpx; display: flex; flex-direction: column; gap: 14rpx; }
+.menu-item {
+  display: flex; align-items: center;
+  padding: 20rpx 22rpx;
+}
+.mi-ico {
+  flex: none; width: 56rpx; height: 56rpx; line-height: 56rpx;
+  text-align: center;
+  background: linear-gradient(135deg, #0EA5E9, #22C55E);
+  color: #fff; border-radius: 16rpx;
+  font-size: 28rpx;
+}
+.mi-body { flex: 1; padding: 0 18rpx; min-width: 0; }
+.mi-name { font-size: 28rpx; font-weight: 700; color: var(--ff-ink-900); }
+.mi-desc { margin-top: 4rpx; font-size: 22rpx; color: var(--ff-ink-400); }
+.mi-go { flex: none; width: 32rpx; height: 32rpx; opacity: 0.5; }
+
 .safe-bottom { height: 200rpx; }

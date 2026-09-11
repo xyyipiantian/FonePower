@@ -1,10 +1,6 @@
 const exercises = require('../../utils/exercises.js');
 const favGuide = require('../../utils/favGuide.js');
-
-const FAV_KEY = 'ff_favorites';
-function getFavs() {
-  try { return wx.getStorageSync(FAV_KEY) || []; } catch (e) { return []; }
-}
+const cloud = require('../../utils/cloud.js');
 
 // 每页条数：控制单次 setData 传输量
 const PAGE_SIZE = 120;
@@ -17,7 +13,12 @@ Page({
   },
 
   onShow() {
-    this._all = getFavs()
+    // 调试自检：进收藏页时打印本地 vs 云端状态
+    const localFavs = cloud.getFavs();
+    const sysInfo = wx.getSystemInfoSync();
+    console.log('[favorites.onShow] 本地收藏数=' + localFavs.length + ' cloudReady=' + cloud.isCloudReady() + ' platform=' + sysInfo.platform);
+
+    this._all = cloud.getFavs()
       .map(id => exercises.getListById(id))
       .filter(Boolean);
     this._page = 0;

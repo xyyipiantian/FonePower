@@ -1,0 +1,52 @@
+<view class="page" wx:if="{{plan}}">
+  <view class="hero custom">
+    <view class="hero-level"><view class="hl-fire ico ico-fire"></view>自定义</view>
+    <view class="hero-name">{{plan.name}}</view>
+    <view class="hero-meta">
+      <view class="hm-count">{{list.length}} 个动作</view>
+    </view>
+  </view>
+
+  <view class="desc-card ff-card" wx:if="{{plan.desc}}">
+    <view class="desc-text">{{plan.desc}}</view>
+  </view>
+
+  <view class="sec-title">训练动作</view>
+  <view class="ex-list">
+    <view class="ex-row ff-card ff-press" wx:for="{{list}}" wx:key="id">
+      <view class="ex-no" bindtap="goDetail" data-id="{{item.id}}">{{item.idx}}</view>
+      <image
+        wx:if="{{item.hasEx}}"
+        class="ex-thumb"
+        src="{{item.image}}"
+        mode="aspectFill"
+        lazy-load
+        bindtap="goDetail"
+        data-id="{{item.id}}"
+      />
+      <view wx:else class="ex-thumb ph-box">?</view>
+      <view class="ex-info">
+        <view class="ex-name" bindtap="goDetail" data-id="{{item.id}}">{{item.name}}</view>
+        <view class="ex-meta">{{item.sets}} 组 × {{item.reps}} · RPE {{item.rpe}} · 休息 {{item.rest}}s</view>
+        <view class="ex-note" wx:if="{{item.note}}">
+          <text class="ex-note-label">要点</text>
+          <text class="ex-note-text">{{item.note}}</text>
+        </view>
+        <view class="ex-cue" wx:if="{{item.cue}}">
+          <text class="ex-cue-label">口令</text>
+          <text class="ex-cue-text">{{item.cue}}</text>
+        </view>
+      </view>
+      <view class="ex-go ico ico-chevron" bindtap="goDetail" data-id="{{item.id}}"></view>
+    </view>
+  </view>
+
+  <view class="edit-btn" bindtap="goEdit">编辑此计划</view>
+  <view class="delete-btn" bindtap="deletePlan">删除此计划</view>
+
+  <view class="safe-bottom"></view>
+</view>
+
+<view wx:else class="empty">
+  <view class="empty-text">未找到该计划</view>
+</view>
