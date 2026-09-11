@@ -69,10 +69,34 @@ function getCurrentDayIndex(planId, cycleLength, pattern) {
   return (lastDayIdx + daysSince) % cycleLength;
 }
 
+
+// 最近一次训练的时间戳（毫秒），用于 3 天未练检测
+function getLastTrainingTime() {
+  const logs = getLogs() || [];
+  if (!logs.length) return 0;
+  // 日志按时间倒序（新→旧），但保险起见取最大值
+  let max = 0;
+  for (const l of logs) {
+    const t = l && (l.endAt || l.startedAt);
+    if (typeof t === 'number' && t > max) max = t;
+  }
+  return max;
+}
+
+// 距上次训练多少天（0 表示今天，-1 表示从未练）
+function getIdleDays() {
+  const t = getLastTrainingTime();
+  if (!t) return -1;
+  const ms = Date.now() - t;
+  return Math.floor(ms / (24 * 60 * 60 * 1000));
+}
+
 module.exports = {
   getLogs,
   appendLog,
   getLastLogForPlan,
   getDaysSinceLast,
-  getCurrentDayIndex
+  getCurrentDayIndex,
+  getLastTrainingTime,
+  getIdleDays
 };

@@ -117,6 +117,16 @@ Page({
     }
   },
 
+  // 用户点了「关闭 idle banner」
+  dismissIdle() {
+    try { wx.setStorageSync('ff.idle.dismissed', true); } catch (e) {}
+    this.setData({ idleDismissed: true });
+  },
+  // 点 banner 主体：跳到训练计划页
+  onIdleBannerTap() {
+    wx.switchTab({ url: '/pages/plans/plans' });
+  },
+
   goDetail(e) {
     const id = e.currentTarget.dataset.id;
     wx.navigateTo({ url: `/pages/detail/detail?id=${id}` });

@@ -4,6 +4,7 @@
 // =====================================================================
 const exercises = require('../../utils/exercises.js');
 const trainingLog = require('../../utils/trainingLog.js');
+const cloud = require('../../utils/cloud.js');
 
 const PROGRESS_KEY = 'ff.training.in_progress';
 
@@ -26,7 +27,8 @@ Page({
     currentItem: null, // 当前动作（data 字段，WXML 直接访问）
     // ===== v1 沉浸模式 =====
     immersive: true,   // 默认进入沉浸态
-    restPulse: false   // 倒计时最后 3 秒脉冲红（动画触发）
+    restPulse: false,  // 倒计时最后 3 秒脉冲红（动画触发）
+    subscribed: false  // 是否已订阅训练完成通知
   },
 
   onLoad(query) {
@@ -34,6 +36,8 @@ Page({
     if (wx.setKeepScreenOn) {
       wx.setKeepScreenOn({ keepScreenOn: true });
     }
+    // 检测订阅状态（从本地 storage 读）
+    this.setData({ subscribed: cloud.getSubscribedFlag() });
     // query: ?planId=&dayIndex=
     try {
       const raw = wx.getStorageSync('ff.currentTraining');
@@ -278,6 +282,8 @@ Page({
       itemsCount: items.length
     };
     trainingLog.appendLog(summary);
+    // 通知后端：本场训练结束（用于后续统计、推送等）
+    this._maybeSendDoneNotification(summary);
     // 清理临时训练数据
     this._clearProgress();
     try { wx.removeStorageSync('ff.currentTraining'); } catch (e) {}
@@ -313,6 +319,51 @@ Page({
 
   finishAndExit() {
     wx.navigateBack({ delta: 2 });
+  },
+
+  // 用户点订阅按钮
+  onSubscribeTap() {
+    const tmplId = cloud.TEMPLATE_IDS.TRAIN_DONE;
+    if (tmplId === 'TEMPLATE_ID_TRAIN_DONE') {
+      wx.showModal({
+        title: '订阅功能未启用',
+        content: '需要先在「微信公众平台 → 订阅消息」申请模板，把 template_id 填入 utils/cloud.js 的 TEMPLATE_IDS.TRAIN_DONE。',
+        confirmText: '我知道了',
+        showCancel: false
+      });
+      return;
+    }
+    cloud.requestSubscribeTemplate(tmplId).then((accepted) => {
+      if (accepted) {
+        cloud.setSubscribedFlag(true);
+        this.setData({ subscribed: true });
+        wx.vibrateShort && wx.vibrateShort({ type: 'medium' });
+        wx.showToast({ title: '已开启，下次练完会通知', icon: 'success' });
+      } else {
+        wx.showToast({ title: '未授权，下次可再点', icon: 'none' });
+      }
+    });
+  },
+
+  // 训练完成时如果订阅过，尝试发一条通知（一次性 token 立即消费）
+  _maybeSendDoneNotification(summary) {
+    if (!cloud.getSubscribedFlag()) return;
+    const tmplId = cloud.TEMPLATE_IDS.TRAIN_DONE;
+    if (tmplId === 'TEMPLATE_ID_TRAIN_DONE') return;
+    const dur = summary.duration ? Math.floor(summary.duration / 60) + ' 分钟' : '刚刚';
+    // 通用模板字段：thing1 = 计划名 / thing2 = 时长 / thing3 = 动作数
+    // 不同模板字段名不一样，真实场景需要按申请到的模板对应字段调整
+    cloud.sendSubscribeMessage(tmplId, {
+      thing1: { value: (summary.planName || '训练').slice(0, 20) },
+      thing2: { value: dur.slice(0, 20) },
+      thing3: { value: (summary.totalSets || 0) + ' 组' }
+    }).then((res) => {
+      if (res && res.ok) {
+        // 用过即失效，清掉本地标记，下次练完再让用户重新订阅
+        cloud.setSubscribedFlag(false);
+        this.setData({ subscribed: false });
+      }
+    });
   },
 
   // 重量变化（虽然不强制记录，先存到 setProgress 里）

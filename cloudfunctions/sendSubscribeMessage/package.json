@@ -1,0 +1,9 @@
+{
+  "name": "sendSubscribeMessage",
+  "version": "1.0.0",
+  "description": "代理前端发送订阅消息（前端无 openapi 权限）",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

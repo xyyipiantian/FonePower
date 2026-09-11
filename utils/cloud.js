@@ -356,6 +356,38 @@ function applyOverrides(plan) {
   return Object.assign({}, plan, { days });
 }
 
+// 订阅消息封装
+const TEMPLATE_IDS = {
+  TRAIN_DONE: 'TEMPLATE_ID_TRAIN_DONE'
+};
+function requestSubscribeTemplate(tmplId) {
+  return new Promise((resolve) => {
+    if (!wx.requestSubscribeMessage) return resolve(false);
+    wx.requestSubscribeMessage({
+      tmplIds: [tmplId],
+      success: (res) => resolve(res[tmplId] === 'accept'),
+      fail:    (err) => { console.warn('[cloud] subscribe fail:', err); resolve(false); }
+    });
+  });
+}
+function sendSubscribeMessage(tmplId, data) {
+  if (!isCloudReady()) return Promise.resolve({ ok: false, reason: 'cloud-not-ready' });
+  return new Promise((resolve) => {
+    wx.cloud.callFunction({
+      name: 'sendSubscribeMessage',
+      data: { tmplId, data },
+      success: (res) => resolve(res && res.result ? res.result : { ok: false }),
+      fail:    (err) => { console.warn('[cloud] sendSub fail:', err); resolve({ ok: false }); }
+    });
+  });
+}
+function getSubscribedFlag() {
+  try { return !!wx.getStorageSync('ff.subscribed.trainDone'); } catch (e) { return false; }
+}
+function setSubscribedFlag(v) {
+  try { wx.setStorageSync('ff.subscribed.trainDone', !!v); } catch (e) {}
+}
+
 module.exports = {
   CLOUD_ENV,
   ensureLogin,
@@ -366,5 +398,10 @@ module.exports = {
   getPlanOrder, setPlanOrder, pullPlanOrder,
   getOverrides, getPlanOverride, setItemOverride, clearItemOverride, clearPlanOverride, pullOverrides,
   applyOverrides,
+  TEMPLATE_IDS,
+  requestSubscribeTemplate,
+  sendSubscribeMessage,
+  getSubscribedFlag,
+  setSubscribedFlag,
   _writeCloudDirect
 };

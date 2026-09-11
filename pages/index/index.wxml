@@ -6,7 +6,19 @@
     <view class="hero-sub">共 {{libraryTotal}} 个动作 · 按部位 / 器械 / 目标筛选</view>
   </view>
 
-  <!-- 搜索框 -->
+  <!-- 3 天未练 banner（数据来源：trainingLog.getIdleDays） -->
+<view wx:if="{{idleDays >= 3 && !idleDismissed}}" class="idle-banner">
+  <view class="idle-body" bindtap="onIdleBannerTap">
+    <view class="idle-ico">⚡️</view>
+    <view class="idle-text">
+      <view class="idle-title">上次练是 {{idleDays}} 天前</view>
+      <view class="idle-sub">点我开始今天的训练</view>
+    </view>
+  </view>
+  <view class="idle-close" bindtap="dismissIdle">✕</view>
+</view>
+
+<!-- 搜索框 -->
   <view class="search-bar">
     <view class="search-ico ico ico-search"></view>
     <input

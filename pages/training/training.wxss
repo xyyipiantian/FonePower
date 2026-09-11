@@ -206,7 +206,44 @@
 }
 .done-btn:active { transform: scale(0.98); }
 
+
+.done-btn:active { transform: scale(0.98); }
+
+/* 订阅通知卡 */
+.sub-card {
+  margin-top: 24rpx;
+  padding: 20rpx 24rpx;
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  background: linear-gradient(135deg, #ECFDF5, #FFFFFF);
+  border: 2rpx solid #A7F3D0;
+}
+.sub-ico {
+  width: 56rpx;
+  height: 56rpx;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #10B981, #059669);
+  border-radius: 50%;
+}
+.sub-body { flex: 1; min-width: 0; }
+.sub-title { font-size: 28rpx; font-weight: 700; color: #064E3B; }
+.sub-sub { margin-top: 4rpx; font-size: 22rpx; color: #047857; }
+.sub-go {
+  flex: none;
+  padding: 8rpx 20rpx;
+  background: #10B981;
+  color: #FFFFFF;
+  font-size: 24rpx;
+  font-weight: 700;
+  border-radius: 999rpx;
+}
+.sub-card:active .sub-go { transform: scale(0.95); }
 .safe-bottom { height: 40rpx; }
+
 
 /* ==========================================================
    v1 沉浸模式

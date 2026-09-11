@@ -139,6 +139,16 @@
 
   <view class="done-tip">已经记录到训练日志，下次练你能看到历史。</view>
 
+  <!-- 订阅通知（首次显示，订阅后由 setData 隐藏） -->
+  <view wx:if="{{!subscribed}}" class="sub-card ff-card" bindtap="onSubscribeTap">
+    <view class="sub-ico ico ico-bell"></view>
+    <view class="sub-body">
+      <view class="sub-title">开启训练完成通知</view>
+      <view class="sub-sub">下次练完自动提醒收尾，不用刷小程序</view>
+    </view>
+    <view class="sub-go">开启</view>
+  </view>
+
   <view class="done-btn" bindtap="finishAndExit">完成</view>
   <view class="safe-bottom"></view>
 </view>
