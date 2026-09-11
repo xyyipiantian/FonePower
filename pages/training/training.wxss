@@ -266,6 +266,56 @@
 .current-card-im .meta-pill.amber { background: rgba(245, 158, 11, 0.2); color: #FCD34D; }
 .current-card-im .meta-pill.red { background: rgba(239, 68, 68, 0.2); color: #FCA5A5; }
 
+/* 沉浸态紧凑进度：保留组进度视觉，不抢大字风头 */
+.im-progress {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  margin-top: 32rpx;
+  padding: 16rpx 24rpx;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16rpx;
+}
+.im-prog-text {
+  font-size: 26rpx;
+  color: #FFFFFF;
+  font-weight: 700;
+  letter-spacing: 1rpx;
+}
+.im-prog-dots {
+  display: flex;
+  gap: 14rpx;
+  flex: 1;
+}
+.im-prog-dot {
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 50%;
+  border: 2rpx solid rgba(255, 255, 255, 0.25);
+  background: transparent;
+}
+.im-prog-dot.dot-done {
+  background: #22C55E;
+  border-color: #22C55E;
+}
+.im-prog-dot.dot-active {
+  background: #F59E0B;
+  border-color: #FCD34D;
+  box-shadow: 0 0 0 6rpx rgba(245, 158, 11, 0.2);
+  animation: dot-pulse 1.2s ease-in-out infinite;
+}
+@keyframes dot-pulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.18); }
+}
+.im-prog-dot.dot-pending {
+  background: transparent;
+}
+.im-prog-hint {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.4);
+}
+
 /* 沉浸态：大按钮 */
 .action-area-im { margin-top: 80rpx !important; }
 .complete-btn-im {

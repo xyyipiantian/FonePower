@@ -37,6 +37,19 @@
     <view wx:elif="{{!immersive}}" class="current-thumb ph-box" bindtap="goDetail">?</view>
   </view>
 
+  <!-- 沉浸态紧凑进度：保留"第几组 + 做完标记"，但不破坏大字体验 -->
+  <view wx:if="{{immersive}}" class="im-progress">
+    <text class="im-prog-text">第 {{setIndex + 1}}/{{setsTotal}} 组</text>
+    <view class="im-prog-dots">
+      <view
+        wx:for="{{setProgress}}"
+        wx:key="index"
+        class="im-prog-dot {{item.done ? 'dot-done' : (index === setIndex ? 'dot-active' : 'dot-pending')}}"
+      ></view>
+    </view>
+    <text class="im-prog-hint" wx:if="{{setIndex + 1 < setsTotal}}">完成本组后休息</text>
+  </view>
+
   <!-- 要点 / 口令（非沉浸态显示） -->
   <view class="note-card ff-card" wx:if="{{currentItem.note && !immersive}}">
     <text class="note-label">要点</text>
